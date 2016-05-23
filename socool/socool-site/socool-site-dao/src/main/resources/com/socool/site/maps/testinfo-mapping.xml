@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.socool.site.dao.testinfo.ITestInfoMapper">
+	<select id="getTestInfo" resultType="testInfoEntry" parameterType="com.socool.site.condition.TestInfoCondition">
+		select * from qdm20999941_db.test_info limit #{rePage.limit} offset #{rePage.offset};
+	</select>
+	<select id="getTestInfoCount" resultType="java.lang.Integer" parameterType="com.socool.site.condition.TestInfoCondition">
+		select count(1) from qdm20999941_db.test_info;
+	</select>
+</mapper>
