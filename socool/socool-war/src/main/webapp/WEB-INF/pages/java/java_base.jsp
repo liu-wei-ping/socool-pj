@@ -234,16 +234,20 @@ function checRadio(){
 }
 var vs="";
 function getRadioV(e,n,type){
+// 	vs="";
 	var en=$(e).attr("name");
 // 	alert(en);
 	var v=$("input:radio[name='"+en+"']:checked").val();
 // 	var v=$(e).val();
 	if(type==1){
+// 		vs="";
 		if(vs.indexOf(v)==-1){	
 			vs+=v;
 		}
 		$("#"+n).html(vs);
+// 		vs="";
 	}else{
+// 		vs="";
 		$("#"+n).html(v);
 	}
 	
@@ -251,7 +255,7 @@ function getRadioV(e,n,type){
 	$(function(){
 		var dds=$(".dis").html();
 		$("#test-continue").on('click',function(){
-			vs="";
+// 			vs="";
 			var f=checRadio();
 			if(f){
 				var page=$(this).attr("page");
