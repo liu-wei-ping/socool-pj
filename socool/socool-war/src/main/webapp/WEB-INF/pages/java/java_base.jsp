@@ -140,17 +140,19 @@
 				<div class="pg" id="pg_${vs.index}"
 					style="background:${vs.index%2==0?'rgba(52, 81, 232, 0.32)':'#E2D2D4'};">
 					<h3>
-						<span class="t_num">${vs.index+1}、</span>${item.testContent}？<span class="t_answer" id="t_answer_${vs.index}"></span>
+						<span class="t_num">${vs.index+1}、</span>${item.testContent}?<c:choose><c:when test="${item.type==1}">(多选)</c:when><c:otherwise>(单选)</c:otherwise></c:choose>
+						<span class="t_answer" id="t_answer_${vs.index}"></span>
 					</h3>
 					<ul style="list-style: none">
 						<li>
 						<c:forEach items="${item.optionsArr}" var="arr" varStatus="vr">
-							<input type="radio" onclick="getRadioV(this,'t_answer_${vs.index}','${item.type}')" class="t_radio"  name="aa_${vs.index}" value="${fn:substring(arr,0,1)}" />${arr}</br>
+								<input type="checkbox" onclick='optionOp(this);' class='option_c' opt="${item.type}" for-span='t_answer_${vs.index}' name="option_${vs.index}" value="${fn:substring(arr,0,1)}"/>${arr}<br>
 						</c:forEach>
 						</li>
 					</ul>
 				</div>
 			</c:forEach>
+<%-- 					<input  id="" value="${fn:length(list)}"> --%>
 		</div>
 			<div class="cx-btns">
 				<a href="###" onclick="return false" disabled  style="display: none;" class="base-btn dis"  id="test-non">没题可做了！</a>
@@ -164,6 +166,7 @@
 var totalPage=${totalPage};
 var page=$("#test-continue").attr("page");
 	function againTest(e){
+		n=0;
 		getTestInfo(1);
 	}
 	if(totalPage<page){
@@ -171,6 +174,7 @@ var page=$("#test-continue").attr("page");
 		$("#test-again").css("display","block");
 		$("#test-non").css("display","block");
 	}
+	var n=${fn:length(list)};
 	function getTestInfo(page){
 		$("#test-continue").show();
 		$("#test-again").css("display","none");
@@ -184,8 +188,6 @@ var page=$("#test-continue").attr("page");
 			type : 'GET',
 			dataType : 'json',
 			success : function(res) {
-				console.log(res);
-//					var jsonRes = eval("(" + res + ")");
 				var result="";
 				$("#test-continue").attr("page",++page);
 				if(res['totalPage']<page){
@@ -193,20 +195,22 @@ var page=$("#test-continue").attr("page");
 					$("#test-again").css("display","block");
 					$("#test-non").css("display","block");
 				}
+			
+// 				alert(n);
 				$.each(res['list'],function(i,v){
 					var li="";
 					var type=v['type'];
-// 					alert(type);
+					var lab=type==1?"(多选)":"(单选)";
 					$.each(v['optionsArr'],function(ii,vv){
 						var kv=$.trim(vv).substr(0,1);
-						var n=type==1?"aa_"+i+"_"+ii:"aa_"+i;
-// 						alert(n);
-						li+="<input type=\"radio\" onclick=\"getRadioV(this,\'t_answer_"+i+"\',"+type+")\" class=\"t_radio\" name="+n+" value=\""+kv+"\" />"+$.trim(vv)+"</br>"
+						li+="<input type=\"checkbox\"  class=\"option_c\" name=\"option_"+i+"\" onclick=\"optionOp(this)\"  opt="+type+" for-span=\"t_answer_"+i+"\" value="+kv+"/>"+$.trim(vv)+"</br>"
 					})
+					console.log(i+1);
+					n+=1;
 					var bg=i%2==0?"background:rgba(52, 81, 232, 0.32)":"background:#E2D2D4";
 						result+="<div class=\"pg\" style=\""+bg+"\";\">"
 						+"<h3>"
-						+"	<span class=\"t_num\">"+(i+1)+"、</span>"+v['testContent']+"？<span class=\"t_answer\" id=\"t_answer_"+i+"\"></span>"
+						+"	<span class=\"t_num\">"+n+"、</span>"+v['testContent']+lab+"？<span class=\"t_answer\" id=\"t_answer_"+i+"\"></span>"
 						+"</h3>"
 						+"<ul style=\"list-style: none\"><li>"+li+"</li></ul>"
 						+"</div>"
@@ -216,15 +220,15 @@ var page=$("#test-continue").attr("page");
 			
 		})
 	}
-	
-function checRadio(){
+
+function checkIsAnswer(){
 	var f=true;
 	$(".base-container").children("div").each(function(i,v){
-		var list=$("input:radio[name='aa_"+i+"']:checked").val();
+		var list=$("input:checkbox[name='option_"+i+"']:checked").val();
+		console.log(list);
 		if(list==null){
 			$(this).attr("class","pg err");
 			$("#t_answer_"+i).html("<font style='color:red;'>请选择答案</font>")
-// 			$(this).attr("style","border: 1px solid red");
 			f=false;
 		}else{
 			$(this).attr("class","pg");
@@ -232,31 +236,47 @@ function checRadio(){
 	})
 	return f;
 }
-var vs="";
-function getRadioV(e,n,type){
-// 	vs="";
-	var en=$(e).attr("name");
-// 	alert(en);
-	var v=$("input:radio[name='"+en+"']:checked").val();
-// 	var v=$(e).val();
-	if(type==1){
-// 		vs="";
-		if(vs.indexOf(v)==-1){	
-			vs+=v;
-		}
-		$("#"+n).html(vs);
-// 		vs="";
+function optionOp(e){
+	var type=$(e).attr('opt');
+	var forSpan=$(e).attr('for-span');
+	var answerText='';
+	var v=$(e).val();
+	if($(e).is(":checked")){
+		if(type!=1&&$(e).attr("checked")!='undefined'){
+			$('#'+forSpan).html('');
+			$(e).siblings().attr("checked",false);
+			$(e).attr("checked",true);
+			 answerText=v;
+		}else{
+			 answerText=$('#'+forSpan).html();
+				if(answerText!=''){
+					if(answerText.charCodeAt()<65||answerText.charCodeAt()>68){
+						answerText='';
+					}
+					if(answerText.indexOf(v)==-1){
+						answerText+=v;
+					}
+					var arr=answerText.split('');
+					arr.sort();
+					answerText=arr.join('');
+				}else{
+			   		answerText+=v;
+				}
+			}
 	}else{
-// 		vs="";
-		$("#"+n).html(v);
+		answerText=$('#'+forSpan).html();
+		answerText=answerText.replace(v,"");
 	}
-	
+	$('#'+forSpan).html(answerText);
 }
 	$(function(){
+		$('.option_c').on('click',function(){
+	
+		})
+		
 		var dds=$(".dis").html();
 		$("#test-continue").on('click',function(){
-// 			vs="";
-			var f=checRadio();
+			var f=checkIsAnswer();
 			if(f){
 				var page=$(this).attr("page");
 				getTestInfo(page);
@@ -264,8 +284,7 @@ function getRadioV(e,n,type){
 // 			$(".base-container").remove();
 		});
 		$("#test-finish").on('click',function(){
-			vs="";
-			checRadio();
+			checkIsAnswer();
 		});
 	})
 </script>
