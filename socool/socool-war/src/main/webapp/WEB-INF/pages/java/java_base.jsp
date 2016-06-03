@@ -146,7 +146,7 @@
 					<ul style="list-style: none">
 						<li>
 						<c:forEach items="${item.optionsArr}" var="arr" varStatus="vr">
-								<input type="checkbox" onclick='optionOp(this);' class='option_c' opt="${item.type}" for-span='t_answer_${vs.index}' name="option_${vs.index}" value="${fn:substring(arr,0,1)}"/>${arr}<br>
+								<input type="checkbox" onclick="optionOp(this,'${item.id}');" class='option_c' opt="${item.type}" for-span='t_answer_${vs.index}' name="option_${vs.index}" value="${fn:substring(arr,0,1)}"/>${arr}<br>
 						</c:forEach>
 						</li>
 					</ul>
@@ -174,7 +174,7 @@ var page=$("#test-continue").attr("page");
 		$("#test-again").css("display","block");
 		$("#test-non").css("display","block");
 	}
-	var n=${fn:length(list)};
+	var n=parseInt('${fn:length(list)}');
 	function getTestInfo(page){
 		$("#test-continue").show();
 		$("#test-again").css("display","none");
@@ -236,7 +236,8 @@ function checkIsAnswer(){
 	})
 	return f;
 }
-function optionOp(e){
+var params=[];
+function optionOp(e,id){
 	var type=$(e).attr('opt');
 	var forSpan=$(e).attr('for-span');
 	var answerText='';
@@ -247,6 +248,10 @@ function optionOp(e){
 			$(e).siblings().attr("checked",false);
 			$(e).attr("checked",true);
 			 answerText=v;
+				param={};
+				param["id"]=id;
+				param["testAnswer"]=answerText;
+				params.push(param);
 		}else{
 			 answerText=$('#'+forSpan).html();
 				if(answerText!=''){
@@ -281,10 +286,24 @@ function optionOp(e){
 				var page=$(this).attr("page");
 				getTestInfo(page);
 			}
-// 			$(".base-container").remove();
 		});
+		
+
 		$("#test-finish").on('click',function(){
-			checkIsAnswer();
+			console.log(params);
+			if(checkIsAnswer()){
+				$.ajax({
+					url : "${pageContext.request.contextPath}/java-info/result.shtml",
+					contentType: "application/json;charset=utf-8",
+					data: JSON.stringify(params),
+					type : 'POST',
+					dataType : 'json',
+					success:function(res){
+						
+					}
+				})
+			}
+			
 		});
 	})
 </script>
