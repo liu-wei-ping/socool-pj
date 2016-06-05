@@ -83,7 +83,6 @@ public class LoginAction {
 		// if (code != null &&
 		// code.toString().equalsIgnoreCase(userInfo.getCode())) {
 		final String pwd = RSAUtils.decryptStringByJs(userInfo.getPassword());
-		System.out.println(pwd);
 		userInfo.setUid(1);
 		userInfo.setPassword("");
 		session.setAttribute(Constants.SESSION_USER, userInfo);

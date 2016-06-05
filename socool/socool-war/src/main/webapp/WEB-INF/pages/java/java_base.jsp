@@ -133,7 +133,8 @@
 }
 
 </style>
-<body>
+<body >
+<div id="java-center">
 	<form action="">
 		<div class="base-container">
 			<c:forEach items="${list}" var="item" varStatus="vs">
@@ -161,6 +162,7 @@
 				<a href="###" onclick="againTest(this)"  style="display: none;" class="base-btn"  id="test-again">重新做题</a>
 			</div>
 		</from>
+</div>
 </body>
 <script type="text/javascript">
 var totalPage=${totalPage};
@@ -225,7 +227,6 @@ function checkIsAnswer(){
 	var f=true;
 	$(".base-container").children("div").each(function(i,v){
 		var list=$("input:checkbox[name='option_"+i+"']:checked").val();
-		console.log(list);
 		if(list==null){
 			$(this).attr("class","pg err");
 			$("#t_answer_"+i).html("<font style='color:red;'>请选择答案</font>")
@@ -248,10 +249,6 @@ function optionOp(e,id){
 			$(e).siblings().attr("checked",false);
 			$(e).attr("checked",true);
 			 answerText=v;
-				param={};
-				param["id"]=id;
-				param["testAnswer"]=answerText;
-				params.push(param);
 		}else{
 			 answerText=$('#'+forSpan).html();
 				if(answerText!=''){
@@ -273,6 +270,20 @@ function optionOp(e,id){
 		answerText=answerText.replace(v,"");
 	}
 	$('#'+forSpan).html(answerText);
+	param={};
+	param["testId"]=id;
+	param["userAnswer"]=answerText;
+	var ff=true;
+	$.each(params,function(i,v){
+		if(v['testId']==id){
+			v['userAnswer']=answerText;
+			ff=false;
+		}
+	})
+	if(ff){
+		params.push(param);
+	}
+	console.log(params);
 }
 	$(function(){
 		$('.option_c').on('click',function(){
@@ -297,9 +308,10 @@ function optionOp(e,id){
 					contentType: "application/json;charset=utf-8",
 					data: JSON.stringify(params),
 					type : 'POST',
-					dataType : 'json',
+					dataType : 'html',
 					success:function(res){
-						
+						alert(res);
+						$('#java-center').html(res);
 					}
 				})
 			}

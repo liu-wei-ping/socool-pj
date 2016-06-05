@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.socool.site.action.BaseAction;
+import com.socool.site.biz.answerresult.ITestAnswerResultBiz;
 import com.socool.site.biz.testinfo.IInterviewTestBiz;
 import com.socool.site.biz.utils.Constants;
-import com.socool.site.bo.testinfo.AnswerBo;
+import com.socool.site.bo.answerresult.TestAnswerResultBo;
 import com.socool.site.bo.testinfo.TestInfoBo;
+import com.socool.site.bo.userinfo.UserInfo;
 import com.socool.site.condition.PageCondition;
 import com.socool.site.condition.TestInfoCondition;
 
@@ -30,14 +34,15 @@ import com.socool.site.condition.TestInfoCondition;
 public class JavaBaseAction extends BaseAction {
 	@Autowired
 	private IInterviewTestBiz iInterviewTestBiz;
+	@Autowired
+	private ITestAnswerResultBiz iTestAnswerResultBiz;
 
 	@ResponseBody
 	@RequestMapping(value = "/base.shtml")
 	public Map<String, Object> ajaxJavaBaseInfo(final int page) {
 
 		final TestInfoCondition condition = new TestInfoCondition();
-		final PageCondition pageCondition = new PageCondition(page,
-				Constants.MAX_JAVA_PAGE);
+		final PageCondition pageCondition = new PageCondition(page, Constants.MAX_JAVA_PAGE);
 		condition.setRePage(pageCondition);
 		final Map<String, Object> map = new HashMap<String, Object>();
 		final int count = iInterviewTestBiz.queryInterviewCount(condition);
@@ -59,8 +64,7 @@ public class JavaBaseAction extends BaseAction {
 	public ModelAndView javaBaseInfo() {
 		final ModelAndView model = new ModelAndView();
 		final TestInfoCondition condition = new TestInfoCondition();
-		final PageCondition pageCondition = new PageCondition(1,
-				Constants.MAX_JAVA_PAGE);
+		final PageCondition pageCondition = new PageCondition(1, Constants.MAX_JAVA_PAGE);
 		condition.setRePage(pageCondition);
 		final int count = iInterviewTestBiz.queryInterviewCount(condition);
 
@@ -80,8 +84,15 @@ public class JavaBaseAction extends BaseAction {
 	 * @return
 	 */
 	@RequestMapping(value = "result.shtml", method = RequestMethod.POST)
-	public ModelAndView resultTestInfo(@RequestBody final List<AnswerBo> result) {
+	public ModelAndView resultTestInfo(@RequestBody final List<TestAnswerResultBo> result, final HttpSession session) {
 		final ModelAndView model = new ModelAndView();
+		final UserInfo userinfo = (UserInfo) session.getAttribute(Constants.SESSION_USER);
+		for (final TestAnswerResultBo testAnswerResultBo : result) {
+			testAnswerResultBo.setUserId(userinfo.getUid());
+			testAnswerResultBo.setStatus(2);
+		}
+		final boolean f = iTestAnswerResultBiz.saveTestAnswerResult(result);
+		model.addObject("result", f);
 		model.setViewName(getViewUrl("result"));
 		return model;
 	}
