@@ -17,13 +17,25 @@ import com.socool.site.entry.answerresult.TestAnswerResultEntry;
  * @see 2016年6月5日
  */
 @Service
-public class TestAnswerResultBizImpl extends BaseBiz implements ITestAnswerResultBiz {
+public class TestAnswerResultBizImpl extends BaseBiz implements
+		ITestAnswerResultBiz {
 	@Autowired
 	private ITestAnswerResultDao dao;
 
 	@Override
+	public List<TestAnswerResultBo> queryTestAnswerResult(final Long uid,
+			final String categoryType) {
+		final List<TestAnswerResultEntry> entryList = dao
+				.queryTestAnswerResult(uid, categoryType);
+		final List<TestAnswerResultBo> list = mapList(entryList,
+				TestAnswerResultBo.class);
+		return list;
+	}
+
+	@Override
 	public boolean saveTestAnswerResult(final List<TestAnswerResultBo> list) {
-		final List<TestAnswerResultEntry> entryList = mapList(list, TestAnswerResultEntry.class);
+		final List<TestAnswerResultEntry> entryList = mapList(list,
+				TestAnswerResultEntry.class);
 		return dao.insertTestAnswerResult(entryList) > 0;
 	}
 

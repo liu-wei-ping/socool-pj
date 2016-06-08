@@ -18,11 +18,12 @@ public interface ITestInfoMapper {
 	 * @param condition
 	 * @return
 	 */
-	List<TestInfoEntry> getTestInfo(TestInfoCondition condition);
+	List<TestInfoEntry> getTestInfo(final TestInfoCondition condition);
 
 	/**
 	 * @param condition
 	 * @return
 	 */
-	int getTestInfoCount(TestInfoCondition condition);
+	int getTestInfoCount(final TestInfoCondition condition);
+
 }

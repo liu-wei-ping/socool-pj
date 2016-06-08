@@ -14,5 +14,13 @@ public interface ITestAnswerResultDao {
 	 * @param list
 	 * @return
 	 */
-	int insertTestAnswerResult(List<TestAnswerResultEntry> list);
+	int insertTestAnswerResult(final List<TestAnswerResultEntry> list);
+
+	/**
+	 * @param uid
+	 * @param categoryType
+	 * @return
+	 */
+	List<TestAnswerResultEntry> queryTestAnswerResult(final Long uid,
+			final String categoryType);
 }

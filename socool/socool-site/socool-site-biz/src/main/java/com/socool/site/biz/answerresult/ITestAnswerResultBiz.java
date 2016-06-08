@@ -14,5 +14,12 @@ public interface ITestAnswerResultBiz {
 	 * @param list
 	 * @return
 	 */
-	boolean saveTestAnswerResult(List<TestAnswerResultBo> list);
+	boolean saveTestAnswerResult(final List<TestAnswerResultBo> list);
+
+	/**
+	 * @param uid
+	 * @return
+	 */
+	List<TestAnswerResultBo> queryTestAnswerResult(final Long uid,
+			final String categoryType);
 }

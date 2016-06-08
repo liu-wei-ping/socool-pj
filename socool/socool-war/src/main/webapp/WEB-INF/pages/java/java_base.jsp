@@ -205,7 +205,7 @@ var page=$("#test-continue").attr("page");
 					var lab=type==1?"(多选)":"(单选)";
 					$.each(v['optionsArr'],function(ii,vv){
 						var kv=$.trim(vv).substr(0,1);
-						li+="<input type=\"checkbox\"  class=\"option_c\" name=\"option_"+i+"\" onclick=\"optionOp(this)\"  opt="+type+" for-span=\"t_answer_"+i+"\" value="+kv+"/>"+$.trim(vv)+"</br>"
+						li+="<input type=\"checkbox\"  class=\"option_c\" name=\"option_"+i+"\" onclick=\"optionOp(this,"+v['id']+")\"  opt="+type+" for-span=\"t_answer_"+i+"\" value="+kv+"/>"+$.trim(vv)+"</br>"
 					})
 					console.log(i+1);
 					n+=1;
@@ -273,14 +273,19 @@ function optionOp(e,id){
 	param={};
 	param["testId"]=id;
 	param["userAnswer"]=answerText;
-	var ff=true;
+	var isPushFlg=true;
+	console.log(params);
+	console.log("------------");
 	$.each(params,function(i,v){
-		if(v['testId']==id){
+		if(v&&v['testId']==id){
 			v['userAnswer']=answerText;
-			ff=false;
+			isPushFlg=false;
+		}
+		if(v&&v['userAnswer']==''){
+			params.splice(i,1);
 		}
 	})
-	if(ff){
+	if(isPushFlg){
 		params.push(param);
 	}
 	console.log(params);
@@ -310,7 +315,6 @@ function optionOp(e,id){
 					type : 'POST',
 					dataType : 'html',
 					success:function(res){
-						alert(res);
 						$('#java-center').html(res);
 					}
 				})

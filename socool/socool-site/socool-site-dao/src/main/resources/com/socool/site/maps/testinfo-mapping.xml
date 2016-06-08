@@ -8,4 +8,5 @@
 	<select id="getTestInfoCount" resultType="java.lang.Integer" parameterType="com.socool.site.condition.TestInfoCondition">
 		select count(1) from qdm20999941_db.test_info;
 	</select>
+
 </mapper>

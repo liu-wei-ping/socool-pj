@@ -1,6 +1,8 @@
 package com.socool.site.dao.answerresult.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,4 +25,15 @@ class TestAnswerResultDaoImpl implements ITestAnswerResultDao {
 		return mapper.insertTestAnswerResult(list);
 	}
 
+	@Override
+	public List<TestAnswerResultEntry> queryTestAnswerResult(final Long uid,
+			final String categoryType) {
+		final Map<String, Object> reqMap = new HashMap<String, Object>();
+		reqMap.put("user_id", uid);
+		reqMap.put("category_type", categoryType);
+
+		final List<TestAnswerResultEntry> mapList = mapper
+				.queryTestAnswerResult(reqMap);
+		return mapList;
+	}
 }

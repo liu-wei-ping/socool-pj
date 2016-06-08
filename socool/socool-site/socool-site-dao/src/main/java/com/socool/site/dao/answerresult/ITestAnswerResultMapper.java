@@ -2,6 +2,7 @@
 package com.socool.site.dao.answerresult;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -18,5 +19,14 @@ public interface ITestAnswerResultMapper {
 	 * @param list
 	 * @return
 	 */
-	int insertTestAnswerResult(@Param("list") List<TestAnswerResultEntry> list);
+	int insertTestAnswerResult(
+			@Param("list") final List<TestAnswerResultEntry> list);
+
+	/**
+	 * @param reqMap
+	 * @return
+	 */
+	List<TestAnswerResultEntry> queryTestAnswerResult(
+			final Map<String, Object> reqMap);
+
 }

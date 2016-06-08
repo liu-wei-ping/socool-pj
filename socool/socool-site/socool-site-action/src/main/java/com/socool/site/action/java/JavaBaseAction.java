@@ -42,7 +42,8 @@ public class JavaBaseAction extends BaseAction {
 	public Map<String, Object> ajaxJavaBaseInfo(final int page) {
 
 		final TestInfoCondition condition = new TestInfoCondition();
-		final PageCondition pageCondition = new PageCondition(page, Constants.MAX_JAVA_PAGE);
+		final PageCondition pageCondition = new PageCondition(page,
+				Constants.MAX_JAVA_PAGE);
 		condition.setRePage(pageCondition);
 		final Map<String, Object> map = new HashMap<String, Object>();
 		final int count = iInterviewTestBiz.queryInterviewCount(condition);
@@ -55,8 +56,13 @@ public class JavaBaseAction extends BaseAction {
 		return map;
 	}
 
+	public List<TestAnswerResultBo> assemblingResult(
+			final List<TestAnswerResultBo> list) {
+		return list;
+	}
+
 	/**
-	 * PHP 基本知识
+	 * JAVA 基本知识
 	 *
 	 * @return
 	 */
@@ -64,7 +70,8 @@ public class JavaBaseAction extends BaseAction {
 	public ModelAndView javaBaseInfo() {
 		final ModelAndView model = new ModelAndView();
 		final TestInfoCondition condition = new TestInfoCondition();
-		final PageCondition pageCondition = new PageCondition(1, Constants.MAX_JAVA_PAGE);
+		final PageCondition pageCondition = new PageCondition(1,
+				Constants.MAX_JAVA_PAGE);
 		condition.setRePage(pageCondition);
 		final int count = iInterviewTestBiz.queryInterviewCount(condition);
 
@@ -83,16 +90,25 @@ public class JavaBaseAction extends BaseAction {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "result.shtml", method = RequestMethod.POST)
-	public ModelAndView resultTestInfo(@RequestBody final List<TestAnswerResultBo> result, final HttpSession session) {
+	@RequestMapping(value = "/result.shtml", method = RequestMethod.POST)
+	public ModelAndView resultTestInfo(
+			@RequestBody List<TestAnswerResultBo> result,
+			final HttpSession session) {
 		final ModelAndView model = new ModelAndView();
-		final UserInfo userinfo = (UserInfo) session.getAttribute(Constants.SESSION_USER);
+		final UserInfo userinfo = (UserInfo) session
+				.getAttribute(Constants.SESSION_USER);
 		for (final TestAnswerResultBo testAnswerResultBo : result) {
 			testAnswerResultBo.setUserId(userinfo.getUid());
 			testAnswerResultBo.setStatus(2);
+			testAnswerResultBo.setCategoryType(Constants.TYPE_JAVA);
 		}
 		final boolean f = iTestAnswerResultBiz.saveTestAnswerResult(result);
-		model.addObject("result", f);
+		if (f) {
+			result = iTestAnswerResultBiz.queryTestAnswerResult(
+					userinfo.getUid(), Constants.TYPE_JAVA);
+			result = assemblingResult(result);
+		}
+		model.addObject("result", result);
 		model.setViewName(getViewUrl("result"));
 		return model;
 	}

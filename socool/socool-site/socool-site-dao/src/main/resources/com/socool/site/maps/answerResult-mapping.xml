@@ -2,11 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.socool.site.dao.answerresult.ITestAnswerResultMapper">
+	<!-- 保存答案 -->
 	<insert id="insertTestAnswerResult" parameterType="java.util.List" useGeneratedKeys="true" >
-		insert into qdm20999941_db.test_answer_result(test_id,user_id,user_answer,status,create_time)values
+		insert into qdm20999941_db.test_answer_result(test_id,user_id,user_answer,status,category_type,create_time)values
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.testId},#{item.userId},#{item.userAnswer},#{item.status},UNIX_TIMESTAMP())
+			(#{item.testId},#{item.userId},#{item.userAnswer},#{item.status},#{item.categoryType},UNIX_TIMESTAMP())
 		</foreach>
 	</insert>
+	<!-- 查询答案 -->
+	<select id="queryTestAnswerResult" parameterType="java.util.Map" resultType="testAnswerResultEntry">
+		select r.id,r.status,r.user_answer,r.user_id,r.category_type,i.test_id,i.test_content,i.test_answer,i.test_options from qdm20999941_db.test_answer_result as r inner join qdm20999941_db.test_info as i
+		on r.test_id=i.id
+		 where r.user_id=#{user_id} and r.category_type=#{category_type}
+	</select>
 
 </mapper>
