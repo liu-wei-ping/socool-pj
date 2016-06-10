@@ -19,14 +19,12 @@ public interface ITestAnswerResultMapper {
 	 * @param list
 	 * @return
 	 */
-	int insertTestAnswerResult(
-			@Param("list") final List<TestAnswerResultEntry> list);
+	int insertTestAnswerResult(@Param("list") final List<TestAnswerResultEntry> list);
 
 	/**
 	 * @param reqMap
 	 * @return
 	 */
-	List<TestAnswerResultEntry> queryTestAnswerResult(
-			final Map<String, Object> reqMap);
+	List<Map<String, Object>> queryTestAnswerResult(final Map<String, Object> reqMap);
 
 }

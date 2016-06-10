@@ -1,6 +1,7 @@
 package com.socool.site.dao.answerresult;
 
 import java.util.List;
+import java.util.Map;
 
 import com.socool.site.entry.answerresult.TestAnswerResultEntry;
 
@@ -21,6 +22,5 @@ public interface ITestAnswerResultDao {
 	 * @param categoryType
 	 * @return
 	 */
-	List<TestAnswerResultEntry> queryTestAnswerResult(final Long uid,
-			final String categoryType);
+	List<Map<String, Object>> queryTestAnswerResult(final Long uid, final String categoryType);
 }

@@ -26,14 +26,11 @@ class TestAnswerResultDaoImpl implements ITestAnswerResultDao {
 	}
 
 	@Override
-	public List<TestAnswerResultEntry> queryTestAnswerResult(final Long uid,
-			final String categoryType) {
+	public List<Map<String, Object>> queryTestAnswerResult(final Long uid, final String categoryType) {
 		final Map<String, Object> reqMap = new HashMap<String, Object>();
 		reqMap.put("user_id", uid);
 		reqMap.put("category_type", categoryType);
-
-		final List<TestAnswerResultEntry> mapList = mapper
-				.queryTestAnswerResult(reqMap);
+		final List<Map<String, Object>> mapList = mapper.queryTestAnswerResult(reqMap);
 		return mapList;
 	}
 }

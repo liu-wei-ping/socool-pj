@@ -10,8 +10,8 @@
 		</foreach>
 	</insert>
 	<!-- 查询答案 -->
-	<select id="queryTestAnswerResult" parameterType="java.util.Map" resultType="testAnswerResultEntry">
-		select r.id,r.status,r.user_answer,r.user_id,r.category_type,i.test_id,i.test_content,i.test_answer,i.test_options from qdm20999941_db.test_answer_result as r inner join qdm20999941_db.test_info as i
+	<select id="queryTestAnswerResult" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select r.id,r.status,r.user_answer,r.user_id,r.category_type,i.test_content,i.test_answer,i.test_options from qdm20999941_db.test_answer_result as r inner join qdm20999941_db.test_info as i
 		on r.test_id=i.id
 		 where r.user_id=#{user_id} and r.category_type=#{category_type}
 	</select>
