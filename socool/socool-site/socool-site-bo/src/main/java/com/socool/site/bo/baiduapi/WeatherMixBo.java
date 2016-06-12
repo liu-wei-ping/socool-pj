@@ -11,6 +11,7 @@ import lombok.Data;
  */
 @Data
 public class WeatherMixBo {
+	private String city;
 	private List<WeatherInfoBo> forecastWeather;
 	private List<WeatherInfoBo> historyWeather;
 	private WeatherInfoBo todayWeather;

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.socool.site.action.BaseAction;
 import com.socool.site.biz.javaapi.IJavaApiBiz;
 import com.socool.site.biz.utils.Constants;
+import com.socool.site.bo.baiduapi.WeatherMixBo;
 
 /**
  * @author liuwp
@@ -34,8 +35,8 @@ public class JavaApiAction extends BaseAction {
 
 	@RequestMapping(value = "/weather.shtml")
 	public String stockApi(final Map<String, Object> map) {
-		final Object obj = iJavaApiBiz.queryWeather("101020100");
-		map.put("res", obj);
+		final WeatherMixBo we = iJavaApiBiz.queryWeather("101020100");
+		map.put("we", we);
 		return getViewUrl("api_weather");
 	}
 

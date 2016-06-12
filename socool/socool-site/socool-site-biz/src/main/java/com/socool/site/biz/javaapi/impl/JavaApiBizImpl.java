@@ -30,26 +30,24 @@ public class JavaApiBizImpl implements IJavaApiBiz {
 		final String result = BaiduApi.request(httpUrl, "cityid=" + cityId);
 		final JSONObject re = new JSONObject(result);
 		final JSONObject retData = re.getJSONObject("retData");
+		final String city = retData.getString("city");
 		final JSONObject todayObj = retData.getJSONObject("today");
 		final JSONArray todayIndexArr = todayObj.getJSONArray("index");
 		final JSONArray historyArr = retData.getJSONArray("history");
 		final JSONArray forecastArr = retData.getJSONArray("forecast");
-		final List<WeatherInfoBo> forecastWeather = JsonConvertHelper
-				.getObjectsFromJson(forecastArr.toString(), List.class,
-						WeatherInfoBo.class);
-		final List<WeatherInfoBo> historyWeather = JsonConvertHelper
-				.getObjectsFromJson(historyArr.toString(), List.class,
-						WeatherInfoBo.class);
-		final List<WeatherIndexBo> indexList = JsonConvertHelper
-				.getObjectsFromJson(todayIndexArr.toString(), List.class,
-						WeatherIndexBo.class);
-		final WeatherInfoBo todayWeather = JsonConvertHelper.jsonToObject(
-				todayObj.toString(), WeatherInfoBo.class);
+		final List<WeatherInfoBo> forecastWeather = JsonConvertHelper.getObjectsFromJson(forecastArr.toString(),
+				List.class, WeatherInfoBo.class);
+		final List<WeatherInfoBo> historyWeather = JsonConvertHelper.getObjectsFromJson(historyArr.toString(),
+				List.class, WeatherInfoBo.class);
+		final List<WeatherIndexBo> indexList = JsonConvertHelper.getObjectsFromJson(todayIndexArr.toString(),
+				List.class, WeatherIndexBo.class);
+		final WeatherInfoBo todayWeather = JsonConvertHelper.jsonToObject(todayObj.toString(), WeatherInfoBo.class);
 		todayWeather.setIndex(indexList);
 		final WeatherMixBo weatherMixBo = new WeatherMixBo();
 		weatherMixBo.setForecastWeather(forecastWeather);
 		weatherMixBo.setHistoryWeather(historyWeather);
 		weatherMixBo.setTodayWeather(todayWeather);
+		weatherMixBo.setCity(city);
 		return weatherMixBo;
 	}
 }
