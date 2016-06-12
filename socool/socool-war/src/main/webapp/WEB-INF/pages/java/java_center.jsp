@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,24 +24,30 @@
 <script type="text/javascript">
 	$(function() {
 		var leftmenu = [ {
+			name : "JAVA技术",
+			submenu : [ {
+				name : "百度API",
+				url : "java-api/bdApi.html"
+			}, {
+				name : "JAVA爬虫",
+				url : "java-tech/crawler.html"
+			}, {
+				name : 'JAVA入门',
+				submenu : [ {
+					name : "java1",
+					submenu : [ {
+						name : 'java1-1',
+						url : "http://www.cjsdn.net/"
+					} ]
+				} ]
+			} ]
+		}, {
 			name : "JAVA面试",
 			submenu : [ {
 				name : 'java基础测试',
 				url : 'java-info/base.html'
-			}]
-		},{
-			name : "JAVA技术",
-			submenu : [ {
-				name : 'JAVA入门',
-				submenu:[{
-					name:"java1",
-					submenu:[{
-						name:'java1-1',
-						url : "http://www.cjsdn.net/"
-					}]
-				}]
 			} ]
-		}];
+		} ];
 		menuTree(leftmenu, '${pageContext.request.contextPath}');
 	})
 </script>
