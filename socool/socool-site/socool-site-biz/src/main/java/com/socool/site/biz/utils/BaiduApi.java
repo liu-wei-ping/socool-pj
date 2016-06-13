@@ -50,4 +50,42 @@ public class BaiduApi {
 		return result;
 	}
 
+	/**
+	 * @param urlAll
+	 *            :请求接口
+	 * @param httpArg
+	 *            :参数
+	 * @return 返回结果
+	 */
+	public static String requestPost(final String httpUrl, final String httpArg) {
+		BufferedReader reader = null;
+		String result = null;
+		final StringBuffer sbf = new StringBuffer();
+
+		try {
+			final URL url = new URL(httpUrl);
+			final HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded");
+			// 填入apikey到HTTP header
+			connection.setRequestProperty("apikey", apiKey);
+			connection.setDoOutput(true);
+			connection.getOutputStream().write(httpArg.getBytes("UTF-8"));
+			connection.connect();
+			final InputStream is = connection.getInputStream();
+			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+			String strRead = null;
+			while ((strRead = reader.readLine()) != null) {
+				sbf.append(strRead);
+				sbf.append("\r\n");
+			}
+			reader.close();
+			result = sbf.toString();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

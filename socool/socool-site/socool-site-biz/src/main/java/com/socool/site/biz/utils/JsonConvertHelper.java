@@ -49,7 +49,7 @@ public class JsonConvertHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Map<String, Object> JsonToMap(final String json) {
+	public static Map<String, Object> jsonToMap(final String json) {
 		Map<String, Object> map = null;
 		try {
 			map = objectMapper.readValue(json, Map.class);
