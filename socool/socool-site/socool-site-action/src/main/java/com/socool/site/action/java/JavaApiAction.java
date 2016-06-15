@@ -35,6 +35,13 @@ public class JavaApiAction extends BaseAction {
 		return model;
 	}
 
+	@RequestMapping(value = "/bdMap.html")
+	public ModelAndView bdMap() {
+		final ModelAndView model = new ModelAndView();
+		model.setViewName(getViewUrl("api_bdMap"));
+		return model;
+	}
+
 	@RequestMapping(value = "/message.shtml")
 	public String messageApi(
 			@RequestParam(value = "phone", required = true) final String phone,

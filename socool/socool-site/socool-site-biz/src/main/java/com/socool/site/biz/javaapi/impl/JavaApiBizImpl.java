@@ -70,6 +70,9 @@ public class JavaApiBizImpl implements IJavaApiBiz {
 				+ "&tag=2";// tag 1 返回xml 2 返回json
 		final String result = BaiduApi.request(messageUrl, httpArg);
 		final JSONObject re = new JSONObject(result);
+		if (re.optBoolean("errNum")) {
+			System.out.println(re.get("errNum"));
+		}
 		final MessageBo messageBo = JsonConvertHelper.jsonToObject(
 				re.toString(), MessageBo.class);
 		return messageBo;

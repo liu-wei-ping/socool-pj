@@ -7,11 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<div>
-			<span>${msg['returnstatus']}</span></br>
-				<span>${msg['message']}</span></br>
-				${msg['successCounts']}
-		</div>
-		<div style="color:red;">${msg['errNum']}&nbsp;${msg['errMsg']}</div>
+百度地图
 </body>
 </html>

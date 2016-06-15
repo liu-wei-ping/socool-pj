@@ -26,6 +26,9 @@
 		var leftmenu = [ {
 			name : "JAVA技术",
 			submenu : [ {
+				name : "百度地图",
+				url : "java-api/bdMap.html"
+			},{
 				name : "百度API",
 				url : "java-api/bdApi.html"
 			}, {
