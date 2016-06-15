@@ -13,10 +13,12 @@
   
   <body>
     <!--百度地图容器-->
- <div id="r-result">
-	城市名: <input id="cityName" type="text" style="width:100px; margin-right:10px;" />
-	<input type="button" value="查询" onclick="theLocation()" />
-    <div style="width:100%;height:700px;border:#ccc solid 1px;font-size:12px" id="map"></div>
+ <div>
+	城市: <input id="cityName" type="text" style="width:100px; margin-right:10px;" />
+	<input type="button" value="城市查询" onclick="theLocation()" />
+	关键字: <input id="mapKey" type="text" style="width:100px; margin-right:10px;" />
+	<input type="button" value="关键字查询" onclick="localSearch()" />
+    <div style="width:800px;height:700px;float:left; border:#ccc solid 1px;font-size:12px" id="map"></div><div id="r-result"></div>
 </div>
   </body>
   <script type="text/javascript">
@@ -83,5 +85,16 @@ function getPosition(){
   			map.centerAndZoom(city,11);      // 用城市名设置地图中心点
   		}
   	}
+  	function localSearch(){
+  		var key=document.getElementById("mapKey").value;
+  		var myKeys=[];  
+  		myKeys.push(key);
+  		var local = new BMap.LocalSearch(map, {
+  			renderOptions:{map: map, panel:"r-result"},
+  			pageCapacity:5
+  		});
+  		local.searchInBounds(myKeys, map.getBounds());
+  	}
+
   </script>
 </html>
