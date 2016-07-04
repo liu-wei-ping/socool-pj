@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.socool.site.action.BaseAction;
 import com.socool.site.biz.javaapi.IJavaApiBiz;
 import com.socool.site.biz.utils.Constants;
+import com.socool.site.bo.baiduapi.IdentityBo;
 import com.socool.site.bo.baiduapi.MessageBo;
 import com.socool.site.bo.baiduapi.WeatherMixBo;
 
@@ -40,6 +41,15 @@ public class JavaApiAction extends BaseAction {
 		final ModelAndView model = new ModelAndView();
 		model.setViewName(getViewUrl("api_bdMap"));
 		return model;
+	}
+
+	@RequestMapping(value = "/bdIdentity.html")
+	public String identityApi(
+			@RequestParam(required = true, value = "identity") final String identityNo,
+			final Map<String, Object> map) {
+		final IdentityBo identityBo = iJavaApiBiz.queryIdentityInfo(identityNo);
+		map.put("identity", identityBo);
+		return getViewUrl("api_identity");
 	}
 
 	@RequestMapping(value = "/message.shtml")

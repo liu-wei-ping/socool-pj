@@ -1,6 +1,7 @@
 /****/
 package com.socool.site.biz.javaapi;
 
+import com.socool.site.bo.baiduapi.IdentityBo;
 import com.socool.site.bo.baiduapi.MessageBo;
 import com.socool.site.bo.baiduapi.WeatherMixBo;
 
@@ -21,4 +22,10 @@ public interface IJavaApiBiz {
 	 * @return
 	 */
 	MessageBo sendMessageToPhone(final String phone, final String content);
+
+	/**
+	 * @param IdentityNo
+	 * @return
+	 */
+	IdentityBo queryIdentityInfo(final String identityNo);
 }

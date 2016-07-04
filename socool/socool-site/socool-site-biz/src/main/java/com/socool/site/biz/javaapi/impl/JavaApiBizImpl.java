@@ -7,9 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.socool.site.biz.BaseBiz;
 import com.socool.site.biz.javaapi.IJavaApiBiz;
 import com.socool.site.biz.utils.BaiduApi;
 import com.socool.site.biz.utils.JsonConvertHelper;
+import com.socool.site.bo.baiduapi.IdentityBo;
 import com.socool.site.bo.baiduapi.MessageBo;
 import com.socool.site.bo.baiduapi.WeatherIndexBo;
 import com.socool.site.bo.baiduapi.WeatherInfoBo;
@@ -20,13 +22,38 @@ import com.socool.site.bo.baiduapi.WeatherMixBo;
  * @date 2016年6月12日
  */
 @Service
-public class JavaApiBizImpl implements IJavaApiBiz {
+public class JavaApiBizImpl extends BaseBiz implements IJavaApiBiz {
+	String identityUrl = "http://apis.baidu.com/apistore/idservice/id";
 	String messageUrl = "http://apis.baidu.com/kingtto_media/106sms/106sms";
 	String weatherUrl = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
 	String weatherUrl2 = " http://apis.baidu.com/open189/templatesms/sendtemplatesms";
 
 	// String httpUrl =
 	// "http://apis.baidu.com/apistore/weatherservice/citylist";
+
+	@Override
+	public IdentityBo queryIdentityInfo(final String IdentityNo) {
+		final String httpArg = "id=" + IdentityNo;
+		final String result = BaiduApi.request(identityUrl, httpArg);
+		final JSONObject re = new JSONObject(result);
+		final int errNum = re.getInt("errNum");
+		if (errNum == 0 && re.keySet().contains("retData")) {
+			final Object retDataObj = re.get("retData");
+			final IdentityBo identityBo = JsonConvertHelper.jsonToObject(
+					String.valueOf(retDataObj), IdentityBo.class);
+			String sexStr = "";
+			if ("M".equalsIgnoreCase(identityBo.getSex())) {
+				sexStr = "男";
+			} else if ("F".equalsIgnoreCase(identityBo.getSex())) {
+				sexStr = "女";
+			} else if ("N".equalsIgnoreCase(identityBo.getSex())) {
+				sexStr = "未知";
+			}
+			identityBo.setSexStr(sexStr);
+			return identityBo;
+		}
+		return null;
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")

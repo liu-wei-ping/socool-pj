@@ -36,6 +36,7 @@ a {
 				<li><a href="###" class="tab hover" id='weather'>实时天气</a></li>
 				<li><a href="###" class="tab" id='message'>短信验证</a></li>
 				<li><a href="###" class="tab" id='stock'>实时股票</a></li>
+				<li><a href="###" class="tab" id='identity'>身份证</a></li>
 			</ul>
 		</div>
 		<div id="weather_min">
@@ -69,6 +70,18 @@ a {
 			</fieldset>
 			<div id="message_p"></div>
 		</div>
+		<div id="identity_min" style="display: none;">
+				<fieldset>
+					<legend>身份证查询</legend>
+					<dl>
+						<label>身份证：</label>
+						<input style="width: 200px;" id="identity_no" /><input type="button" id="identity_cx" value="查询" />
+					</dl>
+					<dl>
+						<span id="identity_req"></span>
+					</dl>
+				</fieldset>
+		</div>
 	</fieldset>
 	<br />
 </body>
@@ -82,12 +95,14 @@ a {
 							$(this).addClass('hover');
 							var tab_id = $(this).attr('id');
 							if (tab_id == "weather") {
-								$("#weather_min").show();
 								$("#stock_min").hide();
 								$("#message_min").hide();
+								$("#identity_min").hide();
+								$("#weather_min").show();
 							} else if (tab_id == "stock") {
 								$("#weather_min").hide();
 								$("#message_min").hide();
+								$("#identity_min").hide();
 								$("#stock_min").show();
 								var url = "${pageContext.request.contextPath}/java-api/stock.shtml";
 								ajaxFun(url, null, "html", function(req) {
@@ -96,7 +111,13 @@ a {
 							} else if (tab_id == "message") {
 								$("#weather_min").hide();
 								$("#stock_min").hide();
+								$("#identity_min").hide();
 								$("#message_min").show();
+							}else if(tab_id=="identity"){
+								$("#weather_min").hide();
+								$("#stock_min").hide();
+								$("#message_min").hide();
+								$("#identity_min").show();
 							}
 						})
 	}
@@ -123,6 +144,16 @@ $("#message_send").on("click",function(){
 		$("#message_p").html(req);
 	})
 })
+
+$("#identity_cx").on("click",function(){
+	var identity_no=$.trim($("#identity_no").val());
+	if(!identity_no){alert("请填写身份证号码！");return;}
+	var url="${pageContext.request.contextPath}/java-api/bdIdentity.html?identity="+identity_no;
+	ajaxFun(url, null, "html", function(req) {
+		$("#identity_req").html(req);
+	})
+})
+
 	function ajaxFun(url, data, dataType, callback) {
 		var type = data == null ? "GET" : "POST";
 		$.ajax({
