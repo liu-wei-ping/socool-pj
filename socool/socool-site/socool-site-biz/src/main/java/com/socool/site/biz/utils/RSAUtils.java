@@ -54,7 +54,8 @@ public abstract class RSAUtils {
 	private static KeyFactory keyFactory = null;
 	private static KeyPairGenerator keyPairGen = null;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RSAUtils.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RSAUtils.class);
 	/** 缓存的密钥对。 */
 	private static KeyPair oneKeyPair = null;
 	/** 保存生成的密钥对的文件名称。 */
@@ -64,7 +65,8 @@ public abstract class RSAUtils {
 
 	static {
 		try {
-			keyPairGen = KeyPairGenerator.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
+			keyPairGen = KeyPairGenerator.getInstance(ALGORITHOM,
+					DEFAULT_PROVIDER);
 			keyFactory = KeyFactory.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
 		} catch (final NoSuchAlgorithmException ex) {
 			LOGGER.error(ex.getMessage());
@@ -81,7 +83,8 @@ public abstract class RSAUtils {
 	 *            要解密的数据。
 	 * @return 原数据。
 	 */
-	public static byte[] decrypt(final PrivateKey privateKey, final byte[] data) throws Exception {
+	public static byte[] decrypt(final PrivateKey privateKey, final byte[] data)
+			throws Exception {
 		final Cipher ci = Cipher.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
 		ci.init(Cipher.DECRYPT_MODE, privateKey);
 		return ci.doFinal(data);
@@ -99,7 +102,8 @@ public abstract class RSAUtils {
 	 *            密文。
 	 * @return 原文字符串。
 	 */
-	public static String decryptString(final PrivateKey privateKey, final String encrypttext) {
+	public static String decryptString(final PrivateKey privateKey,
+			final String encrypttext) {
 		if (privateKey == null || StringUtils.isBlank(encrypttext)) {
 			return null;
 		}
@@ -108,7 +112,8 @@ public abstract class RSAUtils {
 			final byte[] data = decrypt(privateKey, en_data);
 			return new String(data);
 		} catch (final Exception ex) {
-			LOGGER.error(String.format("\"%s\" Decryption failed. Cause: %s", encrypttext, ex.getCause().getMessage()));
+			LOGGER.error(String.format("\"%s\" Decryption failed. Cause: %s",
+					encrypttext, ex.getCause().getMessage()));
 		}
 		return null;
 	}
@@ -135,7 +140,8 @@ public abstract class RSAUtils {
 		} catch (final NullPointerException ex) {
 			LOGGER.error("keyPair cannot be null.");
 		} catch (final Exception ex) {
-			LOGGER.error(String.format("\"%s\" Decryption failed. Cause: %s", encrypttext, ex.getMessage()));
+			LOGGER.error(String.format("\"%s\" Decryption failed. Cause: %s",
+					encrypttext, ex.getMessage()));
 		}
 		return null;
 	}
@@ -164,7 +170,8 @@ public abstract class RSAUtils {
 	 *            要加密的数据。
 	 * @return 加密后的数据。
 	 */
-	public static byte[] encrypt(final PublicKey publicKey, final byte[] data) throws Exception {
+	public static byte[] encrypt(final PublicKey publicKey, final byte[] data)
+			throws Exception {
 		final Cipher ci = Cipher.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
 		ci.init(Cipher.ENCRYPT_MODE, publicKey);
 		return ci.doFinal(data);
@@ -182,7 +189,8 @@ public abstract class RSAUtils {
 	 *            字符串。
 	 * @return 给定字符串的密文。
 	 */
-	public static String encryptString(final PublicKey publicKey, final String plaintext) {
+	public static String encryptString(final PublicKey publicKey,
+			final String plaintext) {
 		if (publicKey == null || plaintext == null) {
 			return null;
 		}
@@ -231,15 +239,18 @@ public abstract class RSAUtils {
 	 *            专用指数。
 	 * @return RSA专用私钥对象。
 	 */
-	public static RSAPrivateKey generateRSAPrivateKey(final byte[] modulus, final byte[] privateExponent) {
-		final RSAPrivateKeySpec privateKeySpec = new RSAPrivateKeySpec(new BigInteger(modulus),
-				new BigInteger(privateExponent));
+	public static RSAPrivateKey generateRSAPrivateKey(final byte[] modulus,
+			final byte[] privateExponent) {
+		final RSAPrivateKeySpec privateKeySpec = new RSAPrivateKeySpec(
+				new BigInteger(modulus), new BigInteger(privateExponent));
 		try {
 			return (RSAPrivateKey) keyFactory.generatePrivate(privateKeySpec);
 		} catch (final InvalidKeySpecException ex) {
 			LOGGER.error("RSAPrivateKeySpec is unavailable.", ex);
 		} catch (final NullPointerException ex) {
-			LOGGER.error("RSAUtils#KEY_FACTORY is null, can not generate KeyFactory instance.", ex);
+			LOGGER.error(
+					"RSAUtils#KEY_FACTORY is null, can not generate KeyFactory instance.",
+					ex);
 		}
 		return null;
 	}
@@ -253,15 +264,18 @@ public abstract class RSAUtils {
 	 *            专用指数。
 	 * @return RSA专用公钥对象。
 	 */
-	public static RSAPublicKey generateRSAPublicKey(final byte[] modulus, final byte[] publicExponent) {
-		final RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(new BigInteger(modulus),
-				new BigInteger(publicExponent));
+	public static RSAPublicKey generateRSAPublicKey(final byte[] modulus,
+			final byte[] publicExponent) {
+		final RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(
+				new BigInteger(modulus), new BigInteger(publicExponent));
 		try {
 			return (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
 		} catch (final InvalidKeySpecException ex) {
 			LOGGER.error("RSAPublicKeySpec is unavailable.", ex);
 		} catch (final NullPointerException ex) {
-			LOGGER.error("RSAUtils#KEY_FACTORY is null, can not generate KeyFactory instance.", ex);
+			LOGGER.error(
+					"RSAUtils#KEY_FACTORY is null, can not generate KeyFactory instance.",
+					ex);
 		}
 		return null;
 	}
@@ -302,8 +316,10 @@ public abstract class RSAUtils {
 	public static PublicKeyPo getPublicKeyMap(final boolean falg) {
 		final PublicKeyPo publicKeyMap = new PublicKeyPo();
 		final RSAPublicKey rsaPublicKey = getDefaultPublicKey(falg);
-		publicKeyMap.setModulus(new String(Hex.encodeHex(rsaPublicKey.getModulus().toByteArray())));
-		publicKeyMap.setExponent(new String(Hex.encodeHex(rsaPublicKey.getPublicExponent().toByteArray())));
+		publicKeyMap.setModulus(new String(Hex.encodeHex(rsaPublicKey
+				.getModulus().toByteArray())));
+		publicKeyMap.setExponent(new String(Hex.encodeHex(rsaPublicKey
+				.getPublicExponent().toByteArray())));
 		return publicKeyMap;
 	}
 
@@ -316,11 +332,12 @@ public abstract class RSAUtils {
 	 *            专用指数。
 	 * @return RSA专用私钥对象。
 	 */
-	public static RSAPrivateKey getRSAPrivateKey(final String hexModulus, final String hexPrivateExponent) {
-		if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPrivateExponent)) {
+	public static RSAPrivateKey getRSAPrivateKey(final String hexModulus,
+			final String hexPrivateExponent) {
+		if (StringUtils.isBlank(hexModulus)
+				|| StringUtils.isBlank(hexPrivateExponent)) {
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(
-						"hexModulus and hexPrivateExponent cannot be empty. RSAPrivateKey value is null to return.");
+				LOGGER.debug("hexModulus and hexPrivateExponent cannot be empty. RSAPrivateKey value is null to return.");
 			}
 			return null;
 		}
@@ -347,8 +364,10 @@ public abstract class RSAUtils {
 	 *            专用指数。
 	 * @return RSA专用公钥对象。
 	 */
-	public static RSAPublicKey getRSAPublidKey(final String hexModulus, final String hexPublicExponent) {
-		if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPublicExponent)) {
+	public static RSAPublicKey getRSAPublidKey(final String hexModulus,
+			final String hexPublicExponent) {
+		if (StringUtils.isBlank(hexModulus)
+				|| StringUtils.isBlank(hexPublicExponent)) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("hexModulus and hexPublicExponent cannot be empty. return null(RSAPublicKey).");
 			}
@@ -380,19 +399,44 @@ public abstract class RSAUtils {
 	}
 
 	/**
+	 * MD5 加密
+	 * 
+	 * @param md5
+	 * @return
+	 */
+	public static String MD5(final String md5) {
+		try {
+			final java.security.MessageDigest md = java.security.MessageDigest
+					.getInstance("MD5");
+			final byte[] array = md.digest(md5.getBytes());
+			final StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < array.length; ++i) {
+				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100)
+						.substring(1, 3));
+			}
+			return sb.toString();
+		} catch (final java.security.NoSuchAlgorithmException e) {
+		}
+		return null;
+	}
+
+	/**
 	 * 生成并返回RSA密钥对。
 	 */
 	private static synchronized KeyPair generateKeyPair() {
 		try {
-			keyPairGen.initialize(KEY_SIZE,
-					new SecureRandom(DateFormatUtils.format(new Date(), "yyyyMMddhhmmss").getBytes()));
+			keyPairGen.initialize(KEY_SIZE, new SecureRandom(DateFormatUtils
+					.format(new Date(), "yyyyMMddhhmmss").getBytes()));
 			oneKeyPair = keyPairGen.generateKeyPair();
 			saveKeyPair(oneKeyPair);
 			return oneKeyPair;
 		} catch (final InvalidParameterException ex) {
-			LOGGER.error("KeyPairGenerator does not support a key length of " + KEY_SIZE + ".", ex);
+			LOGGER.error("KeyPairGenerator does not support a key length of "
+					+ KEY_SIZE + ".", ex);
 		} catch (final NullPointerException ex) {
-			LOGGER.error("RSAUtils#KEY_PAIR_GEN is null, can not generate KeyPairGenerator instance.", ex);
+			LOGGER.error(
+					"RSAUtils#KEY_PAIR_GEN is null, can not generate KeyPairGenerator instance.",
+					ex);
 		}
 		return null;
 	}

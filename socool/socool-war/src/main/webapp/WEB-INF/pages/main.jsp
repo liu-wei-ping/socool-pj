@@ -15,6 +15,7 @@
 			<li><a href="${pageContext.request.contextPath}/main/php/index.html" class="main-link">PHP</a></li>
 			<li><a href="${pageContext.request.contextPath}/main/android/index.html" class="main-link">Android</a></li>
 			<li><a href="${pageContext.request.contextPath}/main/ios/index.html" class="main-link">IOS</a></li>
+			<li><a href="${pageContext.request.contextPath}/baiduApi/index.html" class="main-link">百度API</a></li>
 		</ul>
 	</div>
 </body>

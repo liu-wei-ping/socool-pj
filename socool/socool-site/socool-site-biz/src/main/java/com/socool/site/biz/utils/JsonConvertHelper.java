@@ -5,8 +5,11 @@ package com.socool.site.biz.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -85,6 +88,27 @@ public class JsonConvertHelper {
 			e.printStackTrace();
 		}
 		return jsonStr;
+	}
+
+	/**
+	 * Map Convert String
+	 *
+	 * @param data
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String toQueryString(final Map<?, ?> data)
+			throws UnsupportedEncodingException {
+		final StringBuffer queryString = new StringBuffer();
+		for (final Entry<?, ?> pair : data.entrySet()) {
+			queryString.append(pair.getKey() + "=");
+			queryString.append(URLEncoder.encode((String) pair.getValue(),
+					"UTF-8") + "&");
+		}
+		if (queryString.length() > 0) {
+			queryString.deleteCharAt(queryString.length() - 1);
+		}
+		return queryString.toString();
 	}
 
 	private static JavaType getCollectionType(final Class<?> collectionClass,

@@ -88,4 +88,5 @@ public class BaiduApi {
 		}
 		return result;
 	}
+
 }

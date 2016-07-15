@@ -1,9 +1,12 @@
 /****/
 package com.socool.site.biz.javaapi;
 
+import java.util.Map;
+
 import com.socool.site.bo.baiduapi.IdentityBo;
 import com.socool.site.bo.baiduapi.MessageBo;
 import com.socool.site.bo.baiduapi.WeatherMixBo;
+import com.socool.site.condition.baiduapi.LocationCondition;
 
 /**
  * @author liuwp
@@ -28,4 +31,10 @@ public interface IJavaApiBiz {
 	 * @return
 	 */
 	IdentityBo queryIdentityInfo(final String identityNo);
+
+	/**
+	 * @param condition
+	 * @return
+	 */
+	Map<String, Object> getAddressLocation(final LocationCondition condition);
 }
