@@ -1,6 +1,9 @@
 /****/
 package com.socool.site.action.java;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import com.socool.site.biz.javaapi.IJavaApiBiz;
 import com.socool.site.biz.utils.Constants;
 import com.socool.site.bo.baiduapi.IdentityBo;
 import com.socool.site.bo.baiduapi.MessageBo;
+import com.socool.site.bo.baiduapi.StockInfoBo;
 import com.socool.site.bo.baiduapi.WeatherMixBo;
 
 /**
@@ -64,7 +68,21 @@ public class JavaApiAction extends BaseAction {
 	}
 
 	@RequestMapping(value = "/stock.shtml")
-	public String stockApi() {
+	public String stockApi(@RequestParam("stockList") final String stockStr,
+			final Map<String, Object> reqMap) {
+		final Map<String, Object> reqMap2 = iJavaApiBiz.queryStockInfo(
+				stockStr, "sh", true);
+		@SuppressWarnings("unchecked")
+		final List<StockInfoBo> list = (List<StockInfoBo>) reqMap2
+				.get("stock_info");
+		Collections.sort(list, new Comparator<StockInfoBo>() {
+			@Override
+			public int compare(final StockInfoBo o1, final StockInfoBo o2) {
+				return new Double(o2.getIncrease()).compareTo(new Double(o1
+						.getIncrease()));
+			}
+		});
+		reqMap.put("stock_info", list);
 		return getViewUrl("api_stock");
 	}
 

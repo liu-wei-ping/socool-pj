@@ -37,4 +37,11 @@ public interface IJavaApiBiz {
 	 * @return
 	 */
 	Map<String, Object> getAddressLocation(final LocationCondition condition);
+
+	/**
+	 * @param stockStr
+	 * @return
+	 */
+	Map<String, Object> queryStockInfo(final String stockStr,
+			final String prefix, final boolean isFristFlag);
 }

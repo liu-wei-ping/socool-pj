@@ -52,7 +52,18 @@ a {
 			</fieldset>
 			<div id="weather_p"></div>
 		</div>
-		<div id="stock_min" style="display: none;"></div>
+		<div id="stock_min" style="display: none;">
+			<fieldset>
+				<legend>股票查询</legend>
+				<dl>
+						<label>股票名称|股票代码：</label>
+						<input style="width: 200px;" id="stock_code" value="sz002230" /><input type="button" id="stockCode_cx" value="查询" />
+					</dl>
+					<dl>
+						<span id="stockCode_req"></span>
+					</dl>
+			</fieldset>
+		</div>
 		<div id="message_min" style="display: none;">
 			<fieldset>
 				<legend>发送短信</legend>
@@ -104,10 +115,6 @@ a {
 								$("#message_min").hide();
 								$("#identity_min").hide();
 								$("#stock_min").show();
-								var url = "${pageContext.request.contextPath}/java-api/stock.shtml";
-								ajaxFun(url, null, "html", function(req) {
-									$("#stock_min").html(req);
-								})
 							} else if (tab_id == "message") {
 								$("#weather_min").hide();
 								$("#stock_min").hide();
@@ -144,8 +151,17 @@ $("#message_send").on("click",function(){
 		$("#message_p").html(req);
 	})
 })
-
+$("#stockCode_cx").on("click",function(){
+	$("#stockCode_req").html("");
+	var stock_code=$.trim($('#stock_code').val());
+	if(!stock_code){alert("请填写股票代码或股票名称！");return;}
+	var url = "${pageContext.request.contextPath}/java-api/stock.shtml?stockList="+stock_code;
+	ajaxFun(url, null, "html", function(req) {
+		$("#stockCode_req").html(req);
+	})
+});
 $("#identity_cx").on("click",function(){
+	$("#identity_req").html("");
 	var identity_no=$.trim($("#identity_no").val());
 	if(!identity_no){alert("请填写身份证号码！");return;}
 	var url="${pageContext.request.contextPath}/java-api/bdIdentity.html?identity="+identity_no;

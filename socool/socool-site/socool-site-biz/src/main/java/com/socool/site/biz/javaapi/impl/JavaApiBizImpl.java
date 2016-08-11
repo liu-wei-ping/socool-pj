@@ -3,10 +3,14 @@ package com.socool.site.biz.javaapi.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ import com.socool.site.bo.baiduapi.AddressDetailBo;
 import com.socool.site.bo.baiduapi.IdentityBo;
 import com.socool.site.bo.baiduapi.MessageBo;
 import com.socool.site.bo.baiduapi.PointBo;
+import com.socool.site.bo.baiduapi.StockInfoBo;
 import com.socool.site.bo.baiduapi.WeatherIndexBo;
 import com.socool.site.bo.baiduapi.WeatherInfoBo;
 import com.socool.site.bo.baiduapi.WeatherMixBo;
@@ -34,8 +39,9 @@ public class JavaApiBizImpl extends BaseBiz implements IJavaApiBiz {
 	String identityUrl = "http://apis.baidu.com/apistore/idservice/id";
 	String locationUrl = "http://api.map.baidu.com/location/ip";
 	String messageUrl = "http://apis.baidu.com/kingtto_media/106sms/106sms";
+	String stockCodeUrl = "http://apis.baidu.com/apistore/stockservice/stock";
 	String weatherUrl = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
-	String weatherUrl2 = " http://apis.baidu.com/open189/templatesms/sendtemplatesms";
+	String weatherUrl2 = "http://apis.baidu.com/open189/templatesms/sendtemplatesms";
 
 	// String httpUrl =
 	// "http://apis.baidu.com/apistore/weatherservice/citylist";
@@ -120,6 +126,86 @@ public class JavaApiBizImpl extends BaseBiz implements IJavaApiBiz {
 	}
 
 	@Override
+	public Map<String, Object> queryStockInfo(String stockStr,
+			final String prefix, final boolean isFristFlag) {
+		final Map<String, Object> map = new HashMap<String, Object>();
+		if (!StringUtils.isBlank(stockStr)) {
+			stockStr = stockStr.toLowerCase();
+			String httpArg = null;
+			if (stockStr.indexOf(",") != -1) {
+				final String[] strArr = stockStr.split(",");
+				final StringBuffer buf = new StringBuffer();
+				for (int i = 0; i < strArr.length; i++) {
+					final String str = strArr[i];
+					if (!(str.startsWith("sh") || str.startsWith("sz"))) {
+						strArr[i] = "sh".concat(strArr[i]);
+					}
+					buf.append(strArr[i]);
+					buf.append(",");
+				}
+				buf.deleteCharAt(buf.length() - 1);
+				stockStr = buf.toString();
+				httpArg = "list=1&stockid=".concat(stockStr);
+
+			} else {
+				if ((stockStr.startsWith("sh") || stockStr.startsWith("sz"))
+						&& isFristFlag) {
+					httpArg = "list=2&stockid=".concat(stockStr);
+				} else {
+					if (stockStr.startsWith("sh") || stockStr.startsWith("sz")) {
+						stockStr = stockStr.substring(2);
+					}
+					stockStr = prefix.concat(stockStr);
+					httpArg = "list=2&stockid=".concat(stockStr);
+				}
+			}
+			final String result = BaiduApi.request(stockCodeUrl, httpArg);
+			final JSONObject re = new JSONObject(result);
+			if (re.getInt("errNum") == 0) {
+				final JSONObject retData = re.getJSONObject("retData");
+				final JSONArray jsonArr = retData.getJSONArray("stockinfo");
+				final String jsonStr = jsonArr.toString();
+				final List<StockInfoBo> list = JsonConvertHelper
+						.getListFromJson(jsonStr, StockInfoBo.class);
+				for (final Iterator<StockInfoBo> it = list.iterator(); it
+						.hasNext();) {
+					final StockInfoBo stockInfoBo = it.next();
+					stockInfoBo.setIncreaseStr(formatPrice(
+							stockInfoBo.getIncrease()).concat("%"));
+					if (StringUtils.isBlank(stockInfoBo.getName())
+							|| "FAILED".equalsIgnoreCase(stockInfoBo.getName())) {
+						final String code = stockInfoBo.getCode();
+						String prifixA = "sz";
+						if (!code.startsWith("sz") || !isFristFlag) {
+							prifixA = "sz";
+						} else if (!code.startsWith("sh") || !isFristFlag) {
+							prifixA = "sh";
+						}
+						final Map<String, Object> agMap = queryStockInfo(code,
+								prifixA, false);
+						if (agMap.containsKey("stock_info")) {
+							@SuppressWarnings("unchecked")
+							final List<StockInfoBo> agList = (List<StockInfoBo>) agMap
+									.get("stock_info");
+							final StockInfoBo newStockInfoBo = agList.get(0);
+							Collections.replaceAll(list, stockInfoBo,
+									newStockInfoBo);
+						}
+
+					}
+				}
+				map.put("errMsg", re.getString("errMsg"));
+				map.put("stock_info", list);
+			} else {
+				map.put("errMsg", re.getString("errMsg"));
+
+			}
+		}
+
+		return map;
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public WeatherMixBo queryWeather(final String cityId) {
 		final String result = BaiduApi.request(weatherUrl, "cityid=" + cityId);
@@ -153,6 +239,16 @@ public class JavaApiBizImpl extends BaseBiz implements IJavaApiBiz {
 	@Override
 	public MessageBo sendMessageToPhone(final String phone, final String content) {
 		return send106Msg(phone, content);
+	}
+
+	private String formatPrice(String price) {
+		if (StringUtils.isBlank(price)) {
+			return "0.00";
+		}
+		final float p = Float.valueOf(price);
+		final DecimalFormat fnum = new DecimalFormat("##0.00");
+		price = fnum.format(p);
+		return price;
 	}
 
 	private MessageBo send106Msg(final String phone, String content) {
