@@ -41,6 +41,9 @@
 				name : "JAVA爬虫",
 				url : "java-tech/crawler.html"
 			}, {
+				name : "JAVA邮箱",
+				url : "java-tech/mail.html"
+			},{
 				name : 'JAVA入门',
 				submenu : [ {
 					name : "java1",

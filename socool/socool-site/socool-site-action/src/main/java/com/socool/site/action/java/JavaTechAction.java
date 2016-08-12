@@ -22,6 +22,13 @@ public class JavaTechAction extends BaseAction {
 		return model;
 	}
 
+	@RequestMapping(value = "/mail.html")
+	public ModelAndView mail() {
+		final ModelAndView model = new ModelAndView();
+		model.setViewName(getViewUrl("mail"));
+		return model;
+	}
+
 	@Override
 	protected String getType() {
 		return Constants.TYPE_JAVA;
