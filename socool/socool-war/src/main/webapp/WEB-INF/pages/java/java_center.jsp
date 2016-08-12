@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css"
@@ -22,7 +22,8 @@
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/menu.js"></script>
 <script src="${pageContext.request.contextPath}/js/socool-center.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=VXGVbHDvutI4WQFjzH509VD1HXbdhwFE">
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=VXGVbHDvutI4WQFjzH509VD1HXbdhwFE">
 //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
 //v1.4版本及以前版本的引用方式：src="http://api.map.baidu.com/api?v=1.4&key=您的密钥&callback=initialize"
 </script>

@@ -1,27 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
-    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
-    <title>百度地图API自定义地图</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
+<meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
+<title>百度地图API自定义地图</title>
 
-  </head>
-  
-  <body>
-    <!--百度地图容器-->
- <div>
-	城市: <input id="cityName" type="text" style="width:100px; margin-right:10px;" />
-	<input type="button" value="城市查询" onclick="theLocation()" />
-	关键字: <input id="mapKey" type="text" style="width:100px; margin-right:10px;" />
-	<input type="button" value="关键字查询" onclick="localSearch()" />
-    <div style="width:800px;height:700px;float:left; border:#ccc solid 1px;font-size:12px" id="map"></div><div id="r-result"></div>
-</div>
-  </body>
-  <script type="text/javascript">
+</head>
+
+<body>
+	<!--百度地图容器-->
+	<div>
+		城市: <input id="cityName" type="text"
+			style="width: 100px; margin-right: 10px;" /> <input type="button"
+			value="城市查询" onclick="theLocation()" /> 关键字: <input id="mapKey"
+			type="text" style="width: 100px; margin-right: 10px;" /> <input
+			type="button" value="关键字查询" onclick="localSearch()" />
+		<div
+			style="width: 800px; height: 700px; float: left; border: #ccc solid 1px; font-size: 12px"
+			id="map"></div>
+		<div id="r-result"></div>
+	</div>
+</body>
+<script type="text/javascript">
   var map;
   initMap();
     //创建和初始化地图函数：

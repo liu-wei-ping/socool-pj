@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,23 +14,25 @@
 	padding-top: 2px;
 	padding-left: 10px;
 	/* 	font: 12px Arial; */
-	height:150px;
-	margin:6px; 
+	height: 150px;
+	margin: 6px;
 	color: #504141;
 	/*  	box-shadow: 0 10px 0 #fff inset;  */
 	border-radius: 10px;
 }
-.err{
+
+.err {
 	text-align: left;
 	padding-top: 2px;
 	padding-left: 10px;
-	margin:6px; 
-	height:150px;
+	margin: 6px;
+	height: 150px;
 	color: #504141;
 	/*  	box-shadow: 0 10px 0 #fff inset;  */
 	border-radius: 10px;
 	border: 1px solid red;
 }
+
 .cx-btns {
 	width: 50%;
 	margin: 0 auto;
@@ -77,9 +79,9 @@
 	float: left;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-.cx-btns .dis{
-			
-		background: rgb(254, 231, 154); 
+
+.cx-btns .dis {
+	background: rgb(254, 231, 154);
 	background: -moz-linear-gradient(top, rgba(254, 231, 154, 1) 0%,
 		rgba(254, 193, 81, 1) 100%);
 	background: -webkit-linear-gradient(top, rgba(254, 231, 154, 1) 0%,
@@ -104,6 +106,7 @@
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
 	cursor: not-allowed;
 }
+
 .cx-btns a[class=base-btn]:HOVER {
 	text-decoration: none;
 	background: rgb(254, 193, 81);
@@ -124,45 +127,51 @@
 .pg .t_num {
 	font: 20px Arial;
 }
-.pg .t_answer{
-	text-align:right;
+
+.pg .t_answer {
+	text-align: right;
 	font: 30px Arial;
 	margin: 0px 20%;
-
 	color: #0028FD;
 }
-
 </style>
-<body >
-<div id="java-center">
-	<form action="">
-		<div class="base-container">
-			<c:forEach items="${list}" var="item" varStatus="vs">
-				<div class="pg" id="pg_${vs.index}"
-					style="background:${vs.index%2==0?'rgba(52, 81, 232, 0.32)':'#E2D2D4'};">
-					<h3>
-						<span class="t_num">${vs.index+1}、</span>${item.testContent}?<c:choose><c:when test="${item.type==1}">(多选)</c:when><c:otherwise>(单选)</c:otherwise></c:choose>
-						<span class="t_answer" id="t_answer_${vs.index}"></span>
-					</h3>
-					<ul style="list-style: none">
-						<li>
-						<c:forEach items="${item.optionsArr}" var="arr" varStatus="vr">
-								<input type="checkbox" onclick="optionOp(this,'${item.id}');" class='option_c' opt="${item.type}" for-span='t_answer_${vs.index}' name="option_${vs.index}" value="${fn:substring(arr,0,1)}"/>${arr}<br>
-						</c:forEach>
-						</li>
-					</ul>
-				</div>
-			</c:forEach>
-<%-- 					<input  id="" value="${fn:length(list)}"> --%>
-		</div>
-			<div class="cx-btns">
-				<a href="###" onclick="return false" disabled  style="display: none;" class="base-btn dis"  id="test-non">没题可做了！</a>
-				<a href="###" class="base-btn" page="2" id="test-continue">继续做题</a><a
-					href="###" class="base-btn" id="test-finish">答题结束</a>
-				<a href="###" onclick="againTest(this)"  style="display: none;" class="base-btn"  id="test-again">重新做题</a>
+<body>
+	<div id="java-center">
+		<form action="">
+			<div class="base-container">
+				<c:forEach items="${list}" var="item" varStatus="vs">
+					<div class="pg" id="pg_${vs.index}"
+						style="background:${vs.index%2==0?'rgba(52, 81, 232, 0.32)':'#E2D2D4'};">
+						<h3>
+							<span class="t_num">${vs.index+1}、</span>${item.testContent}?<c:choose>
+								<c:when test="${item.type==1}">(多选)</c:when>
+								<c:otherwise>(单选)</c:otherwise>
+							</c:choose>
+							<span class="t_answer" id="t_answer_${vs.index}"></span>
+						</h3>
+						<ul style="list-style: none">
+							<li><c:forEach items="${item.optionsArr}" var="arr"
+									varStatus="vr">
+									<input type="checkbox" onclick="optionOp(this,'${item.id}');"
+										class='option_c' opt="${item.type}"
+										for-span='t_answer_${vs.index}' name="option_${vs.index}"
+										value="${fn:substring(arr,0,1)}" />${arr}<br>
+								</c:forEach></li>
+						</ul>
+					</div>
+				</c:forEach>
+				<%-- 					<input  id="" value="${fn:length(list)}"> --%>
 			</div>
-		</from>
-</div>
+			<div class="cx-btns">
+				<a href="###" onclick="return false" disabled style="display: none;"
+					class="base-btn dis" id="test-non">没题可做了！</a> <a href="###"
+					class="base-btn" page="2" id="test-continue">继续做题</a><a href="###"
+					class="base-btn" id="test-finish">答题结束</a> <a href="###"
+					onclick="againTest(this)" style="display: none;" class="base-btn"
+					id="test-again">重新做题</a>
+			</div>
+			</from>
+	</div>
 </body>
 <script type="text/javascript">
 var totalPage=${totalPage};

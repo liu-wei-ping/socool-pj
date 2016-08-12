@@ -56,12 +56,13 @@ a {
 			<fieldset>
 				<legend>股票查询</legend>
 				<dl>
-						<label>股票名称|股票代码：</label>
-						<input style="width: 200px;" id="stock_code" value="sz002230" /><input type="button" id="stockCode_cx" value="查询" />
-					</dl>
-					<dl>
-						<span id="stockCode_req"></span>
-					</dl>
+					<label>股票名称|股票代码：</label>
+					<input style="width: 200px;" id="stock_code" value="sz002230" />
+					<input type="button" id="stockCode_cx" value="查询" />
+				</dl>
+				<dl>
+					<span id="stockCode_req"></span>
+				</dl>
 			</fieldset>
 		</div>
 		<div id="message_min" style="display: none;">
@@ -73,7 +74,7 @@ a {
 				</dl>
 				<dl>
 					<label>短信类容：</label>
-					<textarea style="width: 200px;max-width: 200px;" id="msg_content"></textarea>
+					<textarea style="width: 200px; max-width: 200px;" id="msg_content"></textarea>
 				</dl>
 				<dl>
 					<input type="button" id="message_send" value="发送" />
@@ -82,16 +83,17 @@ a {
 			<div id="message_p"></div>
 		</div>
 		<div id="identity_min" style="display: none;">
-				<fieldset>
-					<legend>身份证查询</legend>
-					<dl>
-						<label>身份证：</label>
-						<input style="width: 200px;" id="identity_no" /><input type="button" id="identity_cx" value="查询" />
-					</dl>
-					<dl>
-						<span id="identity_req"></span>
-					</dl>
-				</fieldset>
+			<fieldset>
+				<legend>身份证查询</legend>
+				<dl>
+					<label>身份证：</label>
+					<input style="width: 200px;" id="identity_no" />
+					<input type="button" id="identity_cx" value="查询" />
+				</dl>
+				<dl>
+					<span id="identity_req"></span>
+				</dl>
+			</fieldset>
 		</div>
 	</fieldset>
 	<br />

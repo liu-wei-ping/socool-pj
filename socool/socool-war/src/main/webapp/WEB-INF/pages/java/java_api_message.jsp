@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,11 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<div>
-			<span>${msg['returnstatus']}</span></br>
-				<span>${msg['message']}</span></br>
-				${msg['successCounts']}
-		</div>
-		<div style="color:red;">${msg['errNum']}&nbsp;${msg['errMsg']}</div>
+	<div>
+		<span>${msg['returnstatus']}</span></br> <span>${msg['message']}</span></br>
+		${msg['successCounts']}
+	</div>
+	<div style="color: red;">${msg['errNum']}&nbsp;${msg['errMsg']}</div>
 </body>
 </html>

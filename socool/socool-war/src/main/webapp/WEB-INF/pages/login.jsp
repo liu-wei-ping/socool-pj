@@ -19,30 +19,31 @@
 </head>
 <body>
 	<div class="container">
-		<section id="content">
-<%-- 		<input type="text" id="code"  value="${sessionScope['login_code']}"/> --%>
+		<section id="content"> <%-- 		<input type="text" id="code"  value="${sessionScope['login_code']}"/> --%>
 		<form id="login-form" onSubmit="return false;" method="post">
 			<h1>Learn Site</h1>
 			<em id="err"></em>
 			<div>
-				<input type="text" class="login-input" id="username" oninput="errorFun('',false)" name="username" placeholder="用户名"
+				<input type="text" class="login-input" id="username"
+					oninput="errorFun('',false)" name="username" placeholder="用户名"
 					value="王大雷" required />
 			</div>
 			<div>
 				<input type="password" class="login-input" id="password"
-					name="password" oninput="errorFun('',false)" placeholder="密码"  value="123" required />
+					name="password" oninput="errorFun('',false)" placeholder="密码"
+					value="123" required />
 			</div>
 			<div>
-				<input type="text" class="code-input" id="code" name="code" placeholder="验证码" oninput="errorFun('',false)"
+				<input type="text" class="code-input" id="code" name="code"
+					placeholder="验证码" oninput="errorFun('',false)"
 					onBlur="if (this.value == '') {this.placeholder = '验证码';}"
-					onFocus="this.placeholder = '';"  value="q12g" required /><a href="#"
-					id="code-link"><img class="refresh-code" id="code-img" src="code.shtml"
-					 alt="点击刷新"></a>
+					onFocus="this.placeholder = '';" value="q12g" required /><a
+					href="#" id="code-link"><img class="refresh-code" id="code-img"
+					src="code.shtml" alt="点击刷新"></a>
 			</div>
 			<div>
-<!-- 				<input style="display: block;" id="submit" type="submit" /> -->
-				 <a href="#" class="login-btn" id="login-btn">登 录</a> 
-				 <a href="#"
+				<!-- 				<input style="display: block;" id="submit" type="submit" /> -->
+				<a href="#" class="login-btn" id="login-btn">登 录</a> <a href="#"
 					class="link-btn">Lost your password?</a><a href="#"
 					class="link-btn">Register</a>
 			</div>
