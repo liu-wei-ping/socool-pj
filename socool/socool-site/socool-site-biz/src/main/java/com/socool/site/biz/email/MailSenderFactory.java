@@ -27,20 +27,18 @@ public class MailSenderFactory {
 	 */
 	public static SimpleMailSender getSender() throws IOException {
 		if (initUser() == null) {
-			serviceSms = new SimpleMailSender("liu_weipinglove@163.com",
-					"lwplzg1989");
+			serviceSms = new SimpleMailSender("liu_weipinglove@163.com", "lwplzg1989");
 		}
 		return serviceSms;
 	}
 
 	private static SimpleMailSender initUser() throws IOException {
-		final Properties p = PropertiesUtil
-				.getInstance("config/mail-user.properties");
+		final Properties p = PropertiesUtil.getInstance("config/mail-user.properties");
 		if (null == p) {
 			return null;
 		}
-		serviceSms = new SimpleMailSender(p.getProperty("user.name"),
-				p.getProperty("user.password"));
+		serviceSms = new SimpleMailSender(p.getProperty("user.name"), p.getProperty("user.password"));
+		System.out.println(serviceSms);
 		return serviceSms;
 	}
 }

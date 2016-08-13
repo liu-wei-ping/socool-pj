@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class SendMailBo {
 	private String content;
+	private String fileUrl;
 	private String fromMail;
 	private String subject;
 	private List<String> toMail;
