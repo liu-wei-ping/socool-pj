@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.socool.site.dao.stock.IStockCoreMapper">
+	<select id="getStockHqList" parameterType="com.socool.site.condition.stock.SockCondition"
+		resultType="stockHqEntry">
+		SELECT * FROM qdm20999941_db.stock_hq
+		<where>
+			1=1
+			<if test="stock!=null and stock!=''">
+				AND code=#{stock} OR name like <![CDATA[CONCAT('%',#{stock},'%') ]]> 
+			</if>
+		</where>
+	 ORDER BY ${pageCondition.sort} ${pageCondition.order}
+	 LIMIT ${pageCondition.rows} OFFSET ${pageCondition.offset}
+	</select>
+	<select id="getStockHqCount" parameterType="com.socool.site.condition.stock.SockCondition"
+		resultType="java.lang.Integer">
+		SELECT count(1) FROM qdm20999941_db.stock_hq
+		<where>
+			1=1
+			<if test="stock!=null and stock!=''">
+				AND code=#{stock}  OR name like <![CDATA[CONCAT('%',#{stock},'%') ]]> 
+			</if>
+		</where>
+	</select>
+	<insert id="insertStockHq" parameterType="java.util.List" useGeneratedKeys="true">
+		insert
+		into qdm20999941_db.stock_hq
+		(code,name,currentprice,closingprice,hprice,lprice,openningprice,auctionprice,competitiveprice,totalnumber,turnover,time,create_time,date)
+		values
+		<foreach collection="list" item="item" index="index"  separator="," >
+		     	(#{item.code},
+				#{item.name},
+				#{item.currentprice},
+				#{item.closingprice},
+				#{item.hprice},
+				#{item.lprice},
+				#{item.openningprice},
+				#{item.auctionprice},
+				#{item.competitiveprice},
+				#{item.totalnumber},
+				#{item.turnover},
+				#{item.time},
+				<![CDATA[UNIX_TIMESTAMP()]]> ,
+				#{item.date})
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+		currentprice=values(currentprice),
+		hprice=values(hprice),
+		lprice=values(lprice),
+		openningprice=values(openningprice),
+		auctionprice=values(auctionprice),
+		competitiveprice=values(competitiveprice),
+		totalnumber=values(totalnumber),
+		turnover=values(turnover),
+		time=values(time)
+	</insert>
+	<insert id="insertStockPool" parameterType="java.util.List" useGeneratedKeys="true">
+		insert
+		into qdm20999941_db.stock_pool
+		(stock_code,stock_name,excode) values
+		<foreach collection="list" item="item" index="index"  separator="," >
+			(
+				#{item.stock_code},
+				#{item.stock_name},
+				#{item.excode}
+			)
+		</foreach>
+	</insert>
+</mapper>

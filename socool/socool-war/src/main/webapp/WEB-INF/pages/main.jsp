@@ -26,6 +26,9 @@
 			<li><a
 				href="${pageContext.request.contextPath}/baiduApi/index.html"
 				class="main-link">百度API</a></li>
+			<li><a
+				href="${pageContext.request.contextPath}/stock/index.html"
+				class="main-link">股票行情</a></li>
 		</ul>
 	</div>
 </body>

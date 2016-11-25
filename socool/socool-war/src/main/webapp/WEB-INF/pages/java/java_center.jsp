@@ -19,7 +19,8 @@
 	overflow: auto;
 }
 </style>
-<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<!--<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>  -->
+<script src="http://lib.sinaapp.com/js/jquery/3.1.0/jquery-3.1.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/menu.js"></script>
 <script src="${pageContext.request.contextPath}/js/socool-center.js"></script>
 <script type="text/javascript"

@@ -243,7 +243,7 @@ a:hover {
 	color: #777;
 	font: 13px Helvetica, Arial, sans-serif;
 	margin: 0 0 10px;
-	float:left;
+	float: left;
 	padding: 15px 10px 15px 40px;
 	width: 80%;
 }
@@ -279,10 +279,11 @@ a:hover {
 	background-color: rgba(212, 203, 211, 0.46);
 	/* 	background: #eae7e7 url(../images/background.png) no-repeat; */
 	/* 	background: #eae7e7 url(http://cssdeck.com/uploads/media/items/8/8bcLQqF.png) no-repeat; */
-	border: 1px solid #c8c8c8; color : #777;
+	border: 1px solid #c8c8c8;
+	color: #777;
 	font: 13px Helvetica, Arial, sans-serif;
 	padding: 15px 10px 15px 40px;
-	float:left;
+	float: left;
 	width: 30%;
 	color: #777;
 }
@@ -292,9 +293,12 @@ a:hover {
 	height: 50px;
 	width: 35%;
 }
-#content form div input{
-/* 	margin: 0 auto; */
+
+#content form div input {
+	/* 	margin: 0 auto; */
+	
 }
+
 #content form .code-input:focus {
 	-webkit-box-shadow: 0 0 2px #ed1c24 inset;
 	-moz-box-shadow: 0 0 2px #ed1c24 inset;
@@ -404,10 +408,11 @@ a:hover {
 	margin: 20px 0 35px 0px;
 	position: relative;
 	text-decoration: none;
-	line-height: 35px; text-shadow : 0 1px 0 rgba( 255, 255, 255, 0.5);
+	line-height: 35px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	width: 120px;
 	color: #7E7E7E;
-	float:left;
+	float: left;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
@@ -484,7 +489,7 @@ a:hover {
 /* 	-o-box-shadow: none; */
 /* 	box-shadow: none; */
 /* } */
-#content form #err{
+#content form #err {
 	color: red;
-	font:bold 20px Helvetica, Arial, sans-serif;
+	font: bold 20px Helvetica, Arial, sans-serif;
 }

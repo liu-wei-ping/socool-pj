@@ -1,20 +1,136 @@
-html {height: 98%;}
-.main-body {height: 98%;overflow: auto; background:#ebf1f7;}
-#tree-area {width: 15%; float: left;  border:1px solid #eee; overflow: auto; height: 98%;background:#fff;}
-#all-content {width: 83%; float: right; border:1px solid #eee; overflow: auto; height: 98%;background:#fff;}
-#main-content {width: 98%; margin: 0px auto; padding-top: 6px; text-align: center; height: 98%;overflow: auto;}
-a img {border: none;}
-#main-content .default{font-size:20px;padding-top:100px;}
-#submenu_tree .default{font-size:20px;padding-top:100px;text-align: center;}
-#submenu_tree {overflow: auto;  height: 90%; font: 12px "宋体",Arial;color:#2366c3;padding-top:20px;}
-.log-err {color: red; font-size:12px;}
-.wrap-menu {margin:0 auto; overflow:auto; width:100%; background:red; font:12px/1.5 Tahoma,Arial,sans-serif;height:inherit;}
-.wrap-menu ul{ list-style:none; margin:0; padding:0;}
-.wrap-menu ul li{ text-indent:3em; white-space:nowrap; }
-.wrap-menu ul li h2{ cursor:pointer; height:100%; width:100%; margin:0 0 1px 0; font:12px/31px '宋体'; color:#fff; background:#3976B3;}
-.wrap-menu ul li a{ display:block; outline:none; height:25px; line-height:25px; margin:1px 0; color:#1A385C; text-decoration:none;}
-.wrap-menu ul li img{ margin-right:10px; margin-left:-17px; margin-top:9px; width:7px; height:7px; background:url('../images/arrow.gif') no-repeat; border:none;}
-.wrap-menu ul li img.unfold{ background-position:0 -9px;}
-.wrap-menu ul li a:hover{ background-color:#beebff; background-image:none;border-radius: 2px;box-shadow: inset 0 0 1px #999; cursor:pointer}
-.menu-clicked{ 	background: #beebff;border-radius: 2px;box-shadow: inset 0 0 1px #999}
-.menu-unClicked{ background:none;}
+html {
+	height: 98%;
+}
+
+.main-body {
+	height: 98%;
+	overflow: auto;
+	background: #ebf1f7;
+}
+
+#tree-area {
+	width: 15%;
+	float: left;
+	border: 1px solid #eee;
+	overflow: auto;
+	height: 98%;
+	background: #fff;
+}
+
+#all-content {
+	width: 83%;
+	float: right;
+	border: 1px solid #eee;
+	overflow: auto;
+	height: 98%;
+	background: #fff;
+}
+
+#main-content {
+	width: 98%;
+	margin: 0px auto;
+	padding-top: 6px;
+	text-align: center;
+	height: 98%;
+	overflow: auto;
+}
+
+a img {
+	border: none;
+}
+
+#main-content .default {
+	font-size: 20px;
+	padding-top: 100px;
+}
+
+#submenu_tree .default {
+	font-size: 20px;
+	padding-top: 100px;
+	text-align: center;
+}
+
+#submenu_tree {
+	overflow: auto;
+	height: 90%;
+	font: 12px "宋体", Arial;
+	color: #2366c3;
+	padding-top: 20px;
+}
+
+.log-err {
+	color: red;
+	font-size: 12px;
+}
+
+.wrap-menu {
+	margin: 0 auto;
+	overflow: auto;
+	width: 100%;
+	background: red;
+	font: 12px/1.5 Tahoma, Arial, sans-serif;
+	height: inherit;
+}
+
+.wrap-menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.wrap-menu ul li {
+	text-indent: 3em;
+	white-space: nowrap;
+}
+
+.wrap-menu ul li h2 {
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	margin: 0 0 1px 0;
+	font: 12px/31px '宋体';
+	color: #fff;
+	background: #3976B3;
+}
+
+.wrap-menu ul li a {
+	display: block;
+	outline: none;
+	height: 25px;
+	line-height: 25px;
+	margin: 1px 0;
+	color: #1A385C;
+	text-decoration: none;
+}
+
+.wrap-menu ul li img {
+	margin-right: 10px;
+	margin-left: -17px;
+	margin-top: 9px;
+	width: 7px;
+	height: 7px;
+	background: url('../images/arrow.gif') no-repeat;
+	border: none;
+}
+
+.wrap-menu ul li img.unfold {
+	background-position: 0 -9px;
+}
+
+.wrap-menu ul li a:hover {
+	background-color: #beebff;
+	background-image: none;
+	border-radius: 2px;
+	box-shadow: inset 0 0 1px #999;
+	cursor: pointer
+}
+
+.menu-clicked {
+	background: #beebff;
+	border-radius: 2px;
+	box-shadow: inset 0 0 1px #999
+}
+
+.menu-unClicked {
+	background: none;
+}

@@ -1,11 +1,9 @@
 /*** */
 package com.socool.site.bo;
 
-import java.sql.Timestamp;
+import lombok.Data;
 
 import com.socool.site.condition.PageCondition;
-
-import lombok.Data;
 
 /**
  * @author mr.lwp
@@ -15,5 +13,5 @@ import lombok.Data;
 public class BaseBo {
 	private int createTime;
 	private PageCondition rePage;
-	private Timestamp updateTime;
+	private String updateTime;
 }

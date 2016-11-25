@@ -4,13 +4,17 @@ package com.socool.site.bo.baiduapi;
 import java.io.Serializable;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import com.socool.site.bo.BaseBo;
 
 /**
  * @author liuwp
  * @date 2016年8月10日
  */
 @Data
-public class StockInfoBo implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+public class StockInfoBo extends BaseBo implements Serializable {
 	/*** */
 	private static final long serialVersionUID = 1L;
 	/*** 卖一报价 */

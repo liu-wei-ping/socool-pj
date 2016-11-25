@@ -48,6 +48,7 @@ a {
 					<option value="101250101">长沙</option>
 					<option value="101251409">新田</option>
 					<option value="101201001">恩施</option>
+					<option value="101251401">永州</option>
 				</select> <input type="button" id="search_bn" value="查 询" />
 			</fieldset>
 			<div id="weather_p"></div>
