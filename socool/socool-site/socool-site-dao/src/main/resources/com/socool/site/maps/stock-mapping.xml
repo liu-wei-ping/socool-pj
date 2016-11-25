@@ -61,11 +61,9 @@
 		into qdm20999941_db.stock_pool
 		(stock_code,stock_name,excode) values
 		<foreach collection="list" item="item" index="index"  separator="," >
-			(
-				#{item.stock_code},
-				#{item.stock_name},
-				#{item.excode}
-			)
+			(#{item.stockCode},
+			#{item.stockName},
+			#{item.excode})
 		</foreach>
 	</insert>
 </mapper>
