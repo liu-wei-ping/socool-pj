@@ -64,6 +64,12 @@
 			<artifactId>druid</artifactId>
 			<version>${alibabaPool.version}</version>
 		</dependency>
+		<!-- 定时任务 -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
 		<!--spring框架 -->
 		<dependency>
 			<groupId>org.springframework</groupId>

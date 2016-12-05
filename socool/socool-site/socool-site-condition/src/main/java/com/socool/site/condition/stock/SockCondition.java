@@ -11,6 +11,8 @@ import com.socool.site.condition.PageCondition;
  */
 @Data
 public class SockCondition {
+	private String endDate;
 	private PageCondition pageCondition;
+	private String startDate;
 	private String stock;
 }

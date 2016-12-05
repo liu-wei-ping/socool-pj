@@ -17,9 +17,13 @@
 	  <table id="stock-table"></table>
 	</div>
 	  <div id="toolbar">
+	  	  	  <a class="easyui-linkbutton"   data-options="iconCls : 'icon-back'" href="${pageContext.request.contextPath}/main/index.html" >返回首页</a>&nbsp;&nbsp;
 	  	  <a class="easyui-linkbutton"   id="add_data" data-options="iconCls : 'icon-reload'" onclick="refreshStockHq('stock-table')" >刷新行情</a>&nbsp;
 	  	  <a class="easyui-linkbutton"   id="add_data" data-options="iconCls : 'icon-import'" onclick=" $('#stock-win').window('open')" >录入股票</a>&nbsp;
-	  	  <label>股票代码/名称：</label><input id="stock" class="easyui-textbox" style="width: 200px"><a class="easyui-linkbutton"   data-options="iconCls : 'icon-search'" onclick="searchStockHq('stock-table')" >查询</a>
+	  	  <label>开始日期：</label><input id="startDate" class="easyui-datebox" data-options="disabled:false" style="width: 200px"> ~
+	  	  <label>结束日期：</label><input id="endDate" class="easyui-datebox" data-options="disabled:false" style="width: 200px">
+	  	  <label>股票代码/名称：</label><input id="stock" class="easyui-textbox" style="width: 200px">
+	  	  <a class="easyui-linkbutton"   data-options="iconCls : 'icon-search'" onclick="searchStockHq('stock-table')" >查询</a>
 	  </div>
 	  <div class="easyui-window" id="stock-win" title="录入股票" data-options="iconCls:'icon-save',modal:true,closed:true,minimizable:false,maximizable:false" style="width:300px;height:300px;text-align: center;padding: 10px;">
 	    <form id="stock-form">
@@ -74,6 +78,7 @@ $('#stock-table').datagrid({
               {field:'updateTime',title:'刷新时间',align:'center',width:'13%'},
               ]]
     })
+    
     function refreshStockHq(table){
 		var url="${pageContext.request.contextPath}/stock/updatestockHq.shtml"
 		ajaxFun(url, null,function(req){
@@ -84,7 +89,9 @@ $('#stock-table').datagrid({
     }
     function searchStockHq(table){
     	var stock=$.trim($("#stock").val());
-    	var params={"stock":stock}
+    	var startDate=$.trim($("#startDate").datebox("getValue"));
+    	var endDate=$.trim($("#endDate").datebox("getValue"));
+    	var params={"stock":stock,"startDate":startDate,"endDate":endDate}
 		searchByParams(table,params);
     }
     function loadNewStock(){

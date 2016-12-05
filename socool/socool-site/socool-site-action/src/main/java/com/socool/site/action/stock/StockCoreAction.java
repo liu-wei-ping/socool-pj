@@ -2,10 +2,12 @@
 package com.socool.site.action.stock;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,24 @@ public class StockCoreAction {
 	public Map<String, Object> getStockHqInfo(final SockCondition condition,
 			final PageCondition page) {
 		condition.setPageCondition(new PageCondition(page));
+		String startDate = condition.getStartDate();
+		String endDate = condition.getEndDate();
+		if (StringUtils.isBlank(startDate) || StringUtils.isBlank(endDate)) {
+			final Calendar cal = Calendar.getInstance();
+			final int year = cal.get(Calendar.YEAR);
+			final int month = cal.get(Calendar.MONTH) + 1;
+			final int day = cal.get(Calendar.DATE);
+			final String dayStr = day < 10 ? "0" + String.valueOf(day) : String
+					.valueOf(day);
+			if (StringUtils.isBlank(startDate)) {
+				startDate = year + "-" + month + "-" + dayStr;
+			}
+			if (StringUtils.isBlank(endDate)) {
+				endDate = year + "-" + month + "-" + dayStr;
+			}
+		}
+		condition.setStartDate(startDate);
+		condition.setEndDate(endDate);
 		final Map<String, Object> reqMap = new HashMap<String, Object>();
 		final int total = iStockCoreBiz.getStockHqCount(condition);
 		List<StockInfoBo> list = new ArrayList<StockInfoBo>();

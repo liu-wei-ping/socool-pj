@@ -10,6 +10,12 @@
 			<if test="stock!=null and stock!=''">
 				AND code=#{stock} OR name like <![CDATA[CONCAT('%',#{stock},'%') ]]> 
 			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND date &gt;=#{startDate}
+			</if>
+			<if test="endDate!=null and endDate!=''">
+					AND date &lt;=#{endDate}
+			</if>
 		</where>
 	 ORDER BY ${pageCondition.sort} ${pageCondition.order}
 	 LIMIT ${pageCondition.rows} OFFSET ${pageCondition.offset}
@@ -21,6 +27,12 @@
 			1=1
 			<if test="stock!=null and stock!=''">
 				AND code=#{stock}  OR name like <![CDATA[CONCAT('%',#{stock},'%') ]]> 
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND date &gt;=#{startDate}
+			</if>
+			<if test="endDate!=null and endDate!=''">
+					AND date &lt;=#{endDate}
 			</if>
 		</where>
 	</select>

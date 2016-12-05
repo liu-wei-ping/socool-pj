@@ -19,4 +19,5 @@
 	<import resource="classpath:conf/spring-config.xml" />
 	<!-- <import resource="classpath:conf/spring-redis.xml"/> -->
 	<import resource="classpath:conf/spring-bean.xml" />
+	<import resource="classpath*:conf/spring-init-*.xml"/>
 </beans>
