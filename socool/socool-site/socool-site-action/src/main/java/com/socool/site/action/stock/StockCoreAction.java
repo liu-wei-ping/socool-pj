@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,7 +69,8 @@ public class StockCoreAction {
 	}
 
 	@RequestMapping("/index.html")
-	public ModelAndView index() {
+	public ModelAndView index(final HttpServletRequest request) {
+		final Cookie[] c = request.getCookies();
 		final ModelAndView model = new ModelAndView();
 		model.setViewName("stock/stock_index");
 		return model;
