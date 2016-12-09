@@ -39,7 +39,7 @@
 	<insert id="insertStockHq" parameterType="java.util.List" useGeneratedKeys="true">
 		insert
 		into qdm20999941_db.stock_hq
-		(code,name,currentprice,closingprice,hprice,lprice,openningprice,auctionprice,competitiveprice,totalnumber,turnover,time,create_time,date)
+		(code,name,currentprice,closingprice,hprice,lprice,openningprice,auctionprice,competitiveprice,totalnumber,increase,turnover,time,create_time,date)
 		values
 		<foreach collection="list" item="item" index="index"  separator="," >
 		     	(#{item.code},
@@ -52,6 +52,7 @@
 				#{item.auctionprice},
 				#{item.competitiveprice},
 				#{item.totalnumber},
+				#{item.increase},
 				#{item.turnover},
 				#{item.time},
 				<![CDATA[UNIX_TIMESTAMP()]]> ,
@@ -65,6 +66,7 @@
 		auctionprice=values(auctionprice),
 		competitiveprice=values(competitiveprice),
 		totalnumber=values(totalnumber),
+		increase=values(increase),
 		turnover=values(turnover),
 		time=values(time)
 	</insert>

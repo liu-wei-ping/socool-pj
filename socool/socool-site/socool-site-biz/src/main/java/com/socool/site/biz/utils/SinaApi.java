@@ -67,7 +67,10 @@ public class SinaApi {
 					entry.setTime(info[i]);
 					break;
 				}
+
 			}
+			entry.setIncrease(stockIncrease(entry.getClosingprice(),
+					entry.getCurrentprice()));
 		}
 	}
 
@@ -90,11 +93,29 @@ public class SinaApi {
 					list.add(entry);
 				}
 			} catch (final Exception e) {
-				log.error(listStr[i].concat("股票行情解析错误"));
+				log.error("股票行情解析错误:".concat(listStr[i]));
 				continue;
 			}
 
 		}
 		return list;
+	}
+
+	/**
+	 * 股票涨幅
+	 *
+	 * @param closingprice
+	 * @param currentprice
+	 * @return
+	 */
+	private static BigDecimal stockIncrease(final BigDecimal closingprice,
+			final BigDecimal currentprice) {
+		if (closingprice.equals(BigDecimal.ZERO)) {
+			return BigDecimal.ZERO;
+		}
+		final BigDecimal diffPrice = currentprice.subtract(closingprice);
+		final BigDecimal increase = diffPrice.divide(closingprice, 4,
+				BigDecimal.ROUND_HALF_UP);
+		return increase;
 	}
 }

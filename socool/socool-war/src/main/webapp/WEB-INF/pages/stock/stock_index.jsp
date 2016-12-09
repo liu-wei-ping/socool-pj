@@ -17,7 +17,7 @@
 	  <table id="stock-table"></table>
 	</div>
 	  <div id="toolbar">
-	  	  	  <a class="easyui-linkbutton"   data-options="iconCls : 'icon-back'" href="${pageContext.request.contextPath}/main/index.html" >返回首页</a>&nbsp;&nbsp;
+	  	  <a class="easyui-linkbutton"   data-options="iconCls : 'icon-back'" href="javascript:void(0);" onclick="to_url('${pageContext.request.contextPath}/main/index.html')" >返回首页</a>&nbsp;&nbsp;
 	  	  <a class="easyui-linkbutton"   id="add_data" data-options="iconCls : 'icon-reload'" onclick="refreshStockHq('stock-table')" >刷新行情</a>&nbsp;
 	  	  <a class="easyui-linkbutton"   id="add_data" data-options="iconCls : 'icon-import'" onclick=" $('#stock-win').window('open')" >录入股票</a>&nbsp;
 	  	  <label>开始日期：</label><input id="startDate" class="easyui-datebox" data-options="disabled:false" style="width: 200px"> ~
@@ -58,27 +58,34 @@ $('#stock-table').datagrid({
     pageSize:20,
     remoteSort: true,
     sortOrder:'desc',
-    sortName:'totalnumber',
+    sortName:'increase',
     pageList: [20,30,50,80],
     showFooter: true,
     toolbar:'#toolbar',
     columns:[[
-              {field: 'ck', checkbox: true,hidden:false,width:'1%' },
-              {field:'code',title:'股票代码',align:'center',width:'7%'},
+              {field: 'ck', checkbox: true,hidden:false},
+              {field:'code',title:'股票代码',align:'center',width:'6%'},
               {field:'name',title:'股票名称',align:'center',width:'7%'},
-              {field:'currentprice',title:'当前价格',align:'center',width:'7%',sortable:true,},
-              {field:'closingprice',title:'昨日收盘价',align:'center',width:'7%',sortable:false},
-              {field:'hprice',title:'今日最高价',align:'center',width:'7%',sortable:false},
-              {field:'lprice',title:'今日最低价',align:'center',width:'7%',sortable:false},
-              {field:'openningprice',title:'开盘价',align:'center',width:'7%',sortable:false},
-              {field:'totalnumber',title:'成交量股',align:'center',width:'7%',sortable:true},
+              {field:'currentprice',title:'当前价格',align:'center',width:'6%',sortable:true,},
+              {field:'closingprice',title:'昨日收盘价',align:'center',width:'6%',sortable:false},
+              {field:'hprice',title:'今日最高价',align:'center',width:'6%',sortable:false},
+              {field:'lprice',title:'今日最低价',align:'center',width:'6%',sortable:false},
+              {field:'openningprice',title:'开盘价',align:'center',width:'6%',sortable:false},
+              {field:'totalnumber',title:'成交量股',align:'center',width:'8%',sortable:true},
               {field:'turnover',title:'成交额',align:'center',width:'8%',sortable:true},
-              {field:'date',title:'日期',align:'center',width:'7%'},
-              {field:'time',title:'时间',align:'center',width:'7%'},
+              {field:'increase',title:'涨幅',align:'center',width:'6%',sortable:true,styler:function(value,row,index){
+            	  if(row.increaseStr>0){
+            		  return 'color:#FF0000;font-weight: bold';
+            	  }else{
+            		  return 'color:#0FD442;font-weight: bold';
+            	  }
+              }},
+              {field:'date',title:'日期',align:'center',width:'6%'},
+              {field:'time',title:'时间',align:'center',width:'6%'},
               {field:'updateTime',title:'刷新时间',align:'center',width:'13%'},
               ]]
     })
-    
+
     function refreshStockHq(table){
 		var url="${pageContext.request.contextPath}/stock/updatestockHq.shtml"
 		ajaxFun(url, null,function(req){
@@ -95,6 +102,10 @@ $('#stock-table').datagrid({
 		searchByParams(table,params);
     }
     function loadNewStock(){
+    	if(!is_stock($.trim($("input[name='stockCode']").val()))){
+    		messageBox(false,"","填写正确的股票代码!");
+    		return;
+    	}
     	var params=$("#stock-form").serializeArray();
     	var url="${pageContext.request.contextPath}/stock/loadNewStock.shtml"
 		ajaxFun(url, params,function(req){
@@ -103,5 +114,43 @@ $('#stock-table').datagrid({
 			})
 		})
     }
+    function is_stock(code){
+		if( /\d{6}/.test(code)){
+			code = code.toString();
+			if( code.substring(0,1) == "4" ){ //三板
+				return false;
+			}
+			else if ("100,101,108,109,111,112,115,119,125,126,129,131,010,019,020,130,110,113,104,105,106,107,201,202,203,204".indexOf(code.substring(0, 3)) > -1 || "75,12".indexOf(code.substring(0, 2)) > -1){ //债券
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		else{
+			return false;
+		}
+    }
+    function code_market(code){
+		var sh_or_sz = "sh";
+		var i = code.substring(0, 1);
+		var j = code.substring(0, 3);
+		if (i == "5" || i == "6" || i == "9"){
+			//上证股票
+		}
+		else{
+			if (code == "000003" || code == "000300"){
+				//上证股票
+			}
+			if (j == "009" || j == "126" || j == "110"){
+				//上证股票
+			}
+			else{
+				sh_or_sz = "sz";//深圳股票
+			}
+		}
+		return sh_or_sz;
+   }
+    
 </script>
 </html>

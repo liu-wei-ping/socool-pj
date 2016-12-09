@@ -1,8 +1,11 @@
 /****/
 package com.socool.site.biz.stock.impl;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,11 @@ public class StockCoreBizImpl extends BaseBiz implements IStockCoreBiz {
 		final List<StockHqEntry> entryList = iStockCoreDao
 				.getStockHqList(condition);
 		final List<StockInfoBo> list = mapList(entryList, StockInfoBo.class);
+		for (final StockInfoBo stockInfoBo : list) {
+			stockInfoBo.setIncreaseStr(stockInfoBo.getIncrease());
+			stockInfoBo.setIncrease(stockIncreaseFormat(stockInfoBo
+					.getIncrease()));
+		}
 		return list;
 
 	}
@@ -69,6 +77,18 @@ public class StockCoreBizImpl extends BaseBiz implements IStockCoreBiz {
 
 		}
 		return params;
+	}
+
+	private String stockIncreaseFormat(final String increase) {
+		if (StringUtils.isBlank(increase)) {
+			return "0.00%";
+		}
+		final BigDecimal increaseBig = new BigDecimal(increase);
+		final BigDecimal price = new BigDecimal(100).multiply(increaseBig);
+		final float p = Float.valueOf(String.valueOf(price));
+		final DecimalFormat fnum = new DecimalFormat("##0.00");
+		final String formatPrict = fnum.format(p);
+		return formatPrict.concat("%");
 	}
 
 }

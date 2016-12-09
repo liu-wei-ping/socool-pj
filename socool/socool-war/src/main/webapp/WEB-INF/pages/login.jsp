@@ -14,7 +14,10 @@
 	href="${pageContext.request.contextPath}/css/login.css" />
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/base.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/cookie.js"></script>
 
 </head>
 <body>
@@ -71,25 +74,20 @@
 		login();
 	});
 <%-- 	var id = '<%=Session["login_code"] %>'; --%>
-// 	alert(id);
-	// function check(input, errormsg) {
-	// if (input.value == "") {
-	// loginvalid = false;
-	// input.setCustomValidity(errormsg);
-	// } else {
-	// input.setCustomValidity('');
-	// }
-	// console.log(loginvalid);
-	// }
-	// function clearCustomValidity(input) {
-	// input.setCustomValidity('');
-	// loginvalid = true;
-	// }
-	function login() {
+/*     console.log(_g_offset_time());
+console.log(_g_screen_pix());
+console.log(_g_nvapp());
+console.log(_g_scr_color());
+console.log(_g_language());
+console.log(_g_agent());
+console.log(_g_javaenabled());
+console.log(_g_flashv());
+console.log(_g_cookieenabled());
+console.log(_convert_en("http://127.0.0.1:8080/socool/stock/index.html")); */
+function login() {
 		if (!checkParams()) {
 			return
 		}
-		;
 		var publicKey = RSAUtils.getKeyPair('${key.exponent}', '',
 				'${key.modulus}');
 		var params = {};
@@ -101,7 +99,6 @@
 			console.log(key + "=" + value);
 			params[key] = value;
 		});
-		console.log("---:" + params);
 		$.ajax({
 			url : login_url,
 			type : 'POST',
@@ -110,22 +107,26 @@
 			dataType : 'json',
 			success : function(data) {
 				if (data.success) {
+					failCount=true;
 					setTimeout(function() {
 						location.href = return_url;
 					}, 1000);
 				} else {
-					getPicCode();
-					$("#password").val('');
-					$("#code").val('');
+				
+						/* $("#password").val('');
+						$("#code").val(''); */
+					    getPicCode();
+						errorFun("登录失败!",true);
 				}
 			},
 			error : function(data) {
+				errorFun("系统故障!",true);
 			}
 		});
 	}
 
-	function checkParams() {
-		var f1, f2, f3;
+function checkParams() {
+		var f1, f2, f3,f4=true;
 		var username = $("#username").val();
 		f1 = errorFun("请填写用户名！", username == "")
 		if (!f1) {
@@ -141,8 +142,18 @@
 		if (!f3) {
 			return f3;
 		}
-		return f1 && f2 && f3;
-	}
+		if(null!=CookieUtil.get(username)){
+			 var failCount=CookieUtil.get(username); 
+			var failCountMax=CookieUtil.get("SOCOOL_LOGIN_FAIL_MAX");
+			if(failCount!=undefined && failCount!=null){
+				f4=errorFun("登录失败次数过多！", failCount>failCountMax);
+			    if(!f4){
+			    	return f4;
+			    }
+			}
+		}
+		return f1 && f2 && f3 && f4;
+}
 function errorFun(errorMsg, flag) {
 		if (flag) {
 			$("#err").html("<font>" + errorMsg + "</font>");

@@ -48,7 +48,6 @@ public class JsonConvertHelper {
 	}
 
 	/**
-	 * 注意：Map　转小写了
 	 *
 	 * @param jsonStr
 	 * @param c

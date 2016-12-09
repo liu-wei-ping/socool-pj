@@ -3,6 +3,7 @@
  */
 package com.socool.site.biz.interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -37,6 +38,7 @@ public class DisjunctorDispatcherInterceptor extends HandlerInterceptorAdapter {
 		final String url1 = request.getRequestURL().toString();
 		final String contextPath = request.getContextPath().toString();
 		final HttpSession session = request.getSession();
+		final Cookie[] cc = request.getCookies();
 		final Object obj = session.getAttribute(Constants.SESSION_USER);
 		log.info("getRequestURL:[" + url1 + "]");
 		if (obj == null) {

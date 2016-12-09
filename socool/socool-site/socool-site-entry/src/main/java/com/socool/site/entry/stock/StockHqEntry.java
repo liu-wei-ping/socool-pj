@@ -29,6 +29,8 @@ public class StockHqEntry extends BaseEntry {
 	private String date;
 	/*** 最高价格 */
 	private BigDecimal hprice;
+	/*** 涨幅 */
+	private BigDecimal increase;
 	/*** 最低价格 */
 	private BigDecimal lprice;
 	private String name;
