@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.socool.site.biz.utils.Constants;
 import com.socool.site.bo.userinfo.UserInfo;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 刘伟平<liuweiping@ wcp.sina.com>
@@ -25,15 +25,12 @@ import com.socool.site.bo.userinfo.UserInfo;
 public class DisjunctorDispatcherInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
-	public void afterConcurrentHandlingStarted(
-			final HttpServletRequest request,
-			final HttpServletResponse response, final Object handler)
-			throws Exception {
+	public void afterConcurrentHandlingStarted(final HttpServletRequest request, final HttpServletResponse response,
+			final Object handler) throws Exception {
 	}
 
 	@Override
-	public boolean preHandle(final HttpServletRequest request,
-			final HttpServletResponse response, final Object handler)
+	public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
 			throws Exception {
 		final String url1 = request.getRequestURL().toString();
 		final String contextPath = request.getContextPath().toString();
@@ -52,8 +49,7 @@ public class DisjunctorDispatcherInterceptor extends HandlerInterceptorAdapter {
 		} else {
 			if (obj instanceof UserInfo) {
 				final UserInfo loginUser = (UserInfo) obj;
-				if (loginUser.getUid() > 0
-						&& StringUtils.isNotBlank(loginUser.getUsername())) {
+				if (loginUser != null && StringUtils.isNotBlank(loginUser.getUsername())) {
 					// session.setAttribute(Constants.AJAX_REQ, true);
 				} else {
 					log.info("--------当前用户登录失败！----------");
@@ -61,8 +57,7 @@ public class DisjunctorDispatcherInterceptor extends HandlerInterceptorAdapter {
 						// session.setAttribute(Constants.AJAX_REQ, false);
 						return false;
 					} else {
-						throw new RuntimeException(
-								"--------当前用户登录失败！----------");
+						throw new RuntimeException("--------当前用户登录失败！----------");
 					}
 				}
 			} else {

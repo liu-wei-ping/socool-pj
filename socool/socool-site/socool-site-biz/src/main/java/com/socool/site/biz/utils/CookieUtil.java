@@ -3,6 +3,7 @@ package com.socool.site.biz.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,24 +21,21 @@ public class CookieUtil {
 		return createCookie(name, value, null, true, "/", null);
 	}
 
-	public static Cookie createCookie(final String name, final String value,
-			final boolean isBase64) {
+	public static Cookie createCookie(final String name, final String value, final boolean isBase64) {
 		return createCookie(name, value, null, isBase64, "/", null);
 	}
 
-	public static Cookie createCookie(final String name, final String value,
-			final int expires) {
+	public static Cookie createCookie(final String name, final String value, final int expires) {
 		return createCookie(name, value, expires, true, "/", null);
 	}
 
-	public static Cookie createCookie(final String name, final String value,
-			final int expires, final boolean isBase64) {
+	public static Cookie createCookie(final String name, final String value, final int expires,
+			final boolean isBase64) {
 		return createCookie(name, value, expires, isBase64, "/", null);
 	}
 
-	public static Cookie createCookie(final String name, String value,
-			final Integer expires, final boolean isBase64, final String path,
-			final String domain) {
+	public static Cookie createCookie(final String name, String value, final Integer expires, final boolean isBase64,
+			final String path, final String domain) {
 		value = isBase64 ? Base64Util.encodeBase64(value.trim()) : value.trim();
 		final Cookie cookie = new Cookie(name.trim(), value);
 		cookie.setPath(path);
@@ -50,8 +48,13 @@ public class CookieUtil {
 		return cookie;
 	}
 
-	public static void destroyCookie(final HttpServletRequest request,
-			final HttpServletResponse response, final String name) {
+	public static void destroyCookie(final HttpServletRequest request, final HttpServletResponse response,
+			String name) {
+		try {
+			name = URLEncoder.encode(name, "UTF-8");
+		} catch (final UnsupportedEncodingException e) {
+
+		}
 		final Cookie[] cookies = request.getCookies();
 		if (null == cookies) {
 
@@ -68,8 +71,7 @@ public class CookieUtil {
 		}
 	}
 
-	public static Cookie getCookie(final HttpServletRequest request,
-			final String name) {
+	public static Cookie getCookie(final HttpServletRequest request, final String name) {
 		final Cookie[] cookies = request.getCookies();
 		if (null == cookies) {
 			return null;
@@ -83,13 +85,11 @@ public class CookieUtil {
 		return null;
 	}
 
-	public static String getCookieValue(final HttpServletRequest request,
-			final String name) {
+	public static String getCookieValue(final HttpServletRequest request, final String name) {
 		return getCookieValue(request, name, true);
 	}
 
-	public static String getCookieValue(final HttpServletRequest request,
-			final String name, final boolean isBase64) {
+	public static String getCookieValue(final HttpServletRequest request, final String name, final boolean isBase64) {
 		final Cookie[] cookies = request.getCookies();
 		if (null == cookies) {
 			return null;
@@ -100,8 +100,7 @@ public class CookieUtil {
 						if (isBase64) {
 							return Base64Util.decodeBase64(cookie.getValue());
 						} else {
-							return URLDecoder
-									.decode(cookie.getValue(), "UTF-8");
+							return URLDecoder.decode(cookie.getValue(), "UTF-8");
 						}
 					} catch (final UnsupportedEncodingException e) {
 						e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.socool.site.biz.utils;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -15,30 +16,26 @@ import javax.servlet.http.HttpSession;
 
 public class IdentifyingCodeUtil {
 	private static int codeCount = 4;// 定义图片上显示验证码的个数
-	private static char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
-			'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-			'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6',
-			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-			'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-			'x', 'y', 'z' };
+	private static char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+			'v', 'w', 'x', 'y', 'z' };
 	private static int codeY = 36;
 	private static int fontHeight = 35;
 	private static int height = 47;// 定义图片的height
-	private static int lins = 10;// 干扰线
+	// 创建一个随机数生成器类
+	private static Random random = new Random();
 	private static int width = 90;// 定义图片的width
 	private static int xx = 15;
 
-	public static void getCode(final HttpServletRequest req,
-			final HttpServletResponse resp) throws IOException {
+	public static void getCode(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
 
 		// 定义图像buffer
-		final BufferedImage buffImg = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_RGB);
+		final BufferedImage buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		// Graphics2D gd = buffImg.createGraphics();
 		final Graphics2D gd = (Graphics2D) buffImg.getGraphics();
 		// Graphics gd = buffImg.getGraphics();
-		// 创建一个随机数生成器类
-		final Random random = new Random();
+
 		// 将图像填充为白色
 		gd.setColor(Color.white);
 		gd.fillRect(0, 0, width, height);
@@ -50,17 +47,27 @@ public class IdentifyingCodeUtil {
 		gd.setFont(font);
 
 		// 画边框。
-		gd.setColor(Color.GRAY);
+		gd.setColor(Color.GREEN);
 		gd.draw3DRect(0, 0, width - 1, height - 1, true);
-		gd.setColor(Color.GRAY);
-		for (int i = 0; i < lins; i++) {
+		gd.setColor(Color.BLUE);
+		// 干扰线
+		for (int i = 0; i < random.nextInt(30 - 15 + 1) + 15; i++) {
 			final int x = random.nextInt(width);
 			final int y = random.nextInt(height);
 			final int xl = random.nextInt(20);
 			final int yl = random.nextInt(20);
 			gd.drawLine(x, y, x + xl, y + yl);
 		}
-
+		gd.setColor(Color.GREEN);
+		gd.setStroke(new BasicStroke(2.5f)); // 畫筆大小
+		// 干扰點
+		for (int i = 0; i < random.nextInt(180 - 100 + 1) + 100; i++) {
+			final int x = random.nextInt(width);
+			final int y = random.nextInt(height);
+			final int xl = random.nextInt(20);
+			final int yl = random.nextInt(20);
+			gd.drawLine(x + xl, y + yl, x + xl, y + yl);
+		}
 		// randomCode用于保存随机产生的验证码，以便用户登录后进行验证。
 		final StringBuffer randomCode = new StringBuffer();
 		int red = 0, green = 0, blue = 0, x = 5;
@@ -68,8 +75,7 @@ public class IdentifyingCodeUtil {
 		// 随机产生codeCount数字的验证码。
 		for (int i = 0; i < codeCount; i++) {
 			// 得到随机产生的验证码数字。
-			final String code = String
-					.valueOf(codeSequence[random.nextInt(62)]);
+			final String code = String.valueOf(codeSequence[random.nextInt(62)]);
 
 			// 产生随机的颜色分量来构造颜色值，这样输出的每位数字的颜色值都将不同。
 			red = random.nextInt(255);
@@ -88,7 +94,6 @@ public class IdentifyingCodeUtil {
 		}
 		// 将四位数字的验证码保存到Session中。
 		final HttpSession session = req.getSession();
-		System.out.print(randomCode + "=====================");
 		session.setAttribute(Constants.LOGIN_CODE, randomCode.toString());
 
 		// 禁止图像缓存。

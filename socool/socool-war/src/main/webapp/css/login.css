@@ -366,13 +366,16 @@ a:hover {
 }
 
 #content form div a[class='link-btn'] {
-	color: #004a80;
+	color: #068aea;
 	float: right;
-	font-size: 12px;
-	margin: 30px 15px 0 0;
-	text-decoration: underline;
+	font-size: 15px;
+	margin: 30px 25px 0 0;
+	text-decoration: none;
 }
+#content form div a[class='link-btn']:hover{
 
+		text-decoration: underline;
+}
 #content form div a[class='login-btn'] {
 	display: block;
 	text-decoration: underline;

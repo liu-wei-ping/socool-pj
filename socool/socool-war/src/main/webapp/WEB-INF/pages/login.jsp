@@ -24,7 +24,7 @@
 	<div class="container">
 		<section id="content"> <%-- 		<input type="text" id="code"  value="${sessionScope['login_code']}"/> --%>
 		<form id="login-form" onSubmit="return false;" method="post">
-			<h1>Learn Site</h1>
+			<h1>Socool Site</h1>
 			<em id="err"></em>
 			<div>
 				<input type="text" class="login-input" id="username"
@@ -34,7 +34,7 @@
 			<div>
 				<input type="password" class="login-input" id="password"
 					name="password" oninput="errorFun('',false)" placeholder="密码"
-					value="123" required />
+					value="lwp123" required />
 			</div>
 			<div>
 				<input type="text" class="code-input" id="code" name="code"
@@ -46,9 +46,9 @@
 			</div>
 			<div>
 				<!-- 				<input style="display: block;" id="submit" type="submit" /> -->
-				<a href="#" class="login-btn" id="login-btn">登 录</a> <a href="#"
-					class="link-btn">Lost your password?</a><a href="#"
-					class="link-btn">Register</a>
+				<a href="#" class="login-btn" id="login-btn">登 录</a> <a href="retrieve.html"
+					class="link-btn" target="_blank">找回密码</a><a href="register.html"
+					class="link-btn" target="_blank">注册</a>
 			</div>
 		</form>
 		<!-- form -->
@@ -116,7 +116,7 @@ function login() {
 						/* $("#password").val('');
 						$("#code").val(''); */
 					    getPicCode();
-						errorFun("登录失败!",true);
+						errorFun(data.msg,true);
 				}
 			},
 			error : function(data) {
@@ -146,7 +146,7 @@ function checkParams() {
 			 var failCount=CookieUtil.get(username); 
 			var failCountMax=CookieUtil.get("SOCOOL_LOGIN_FAIL_MAX");
 			if(failCount!=undefined && failCount!=null){
-				f4=errorFun("登录失败次数过多！", failCount>failCountMax);
+				f4=errorFun("登录失败次数过多！", failCount>=failCountMax);
 			    if(!f4){
 			    	return f4;
 			    }

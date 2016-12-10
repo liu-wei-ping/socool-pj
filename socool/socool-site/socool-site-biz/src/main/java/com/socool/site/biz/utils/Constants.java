@@ -23,6 +23,8 @@ public class Constants {
 	/*** 最大展示数据(JAVA) */
 	public final static int MAX_JAVA_PAGE = 3;
 
+	/*** */
+	public final static String MESSAGE = "msg";
 	/**
 	 * 登录成功凭证 KEY
 	 */
