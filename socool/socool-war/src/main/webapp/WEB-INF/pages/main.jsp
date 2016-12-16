@@ -29,6 +29,9 @@
 			<li><a
 				href="${pageContext.request.contextPath}/stock/index.html"
 				class="main-link">股票行情</a></li>
+			<li><a
+				href="${pageContext.request.contextPath}/train/index.html"
+				class="main-link">12306</a></li>
 		</ul>
 	</div>
 </body>

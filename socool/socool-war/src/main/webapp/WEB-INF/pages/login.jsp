@@ -84,6 +84,13 @@ console.log(_g_javaenabled());
 console.log(_g_flashv());
 console.log(_g_cookieenabled());
 console.log(_convert_en("http://127.0.0.1:8080/socool/stock/index.html")); */
+
+document.onkeydown = function(e){ 
+    var ev = document.all ? window.event : e;
+    if(ev.keyCode==13) {
+    	login();
+     }
+}
 function login() {
 		if (!checkParams()) {
 			return
@@ -112,9 +119,8 @@ function login() {
 						location.href = return_url;
 					}, 1000);
 				} else {
-				
-						/* $("#password").val('');
-						$("#code").val(''); */
+						 $("#password").val('');
+						$("#code").val(''); 
 					    getPicCode();
 						errorFun(data.msg,true);
 				}

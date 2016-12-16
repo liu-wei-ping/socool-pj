@@ -37,7 +37,7 @@ public class BasicCrawler extends WebCrawler {
 
 		// Only accept the url if it is in the "www.ics.uci.edu" domain and
 		// protocol is "http".
-		return href.startsWith("http://www.ziroom.com/");
+		return href.startsWith("http://www.sina.com.cn/");
 		// return href.startsWith("http://www.ics.uci.edu/");
 	}
 

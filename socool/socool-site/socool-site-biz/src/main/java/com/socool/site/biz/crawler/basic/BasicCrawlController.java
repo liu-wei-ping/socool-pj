@@ -18,10 +18,10 @@ public class BasicCrawlController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(BasicCrawlController.class);
 
-	public static void main(String[] args) throws Exception {
-		args = args.length == 0 ? new String[2] : args;
-		args[0] = "D:\\data\\crawl";
-		args[1] = "1";
+	public static void main(final String[] args) throws Exception {
+		// args = args.length == 0 ? new String[2] : args;
+		// args[0] = "D:\\data\\crawl";
+		// args[1] = "1";
 		if (args.length != 2) {
 			logger.info("Needed parameters: ");
 			logger.info("\t rootFolder (it will contain intermediate crawl data)");
@@ -102,7 +102,7 @@ public class BasicCrawlController {
 		 * URLs that are fetched and then the crawler starts following links
 		 * which are found in these pages
 		 */
-		controller.addSeed("http://www.ziroom.com/");
+		controller.addSeed("http://www.sina.com.cn/");
 		// controller.addSeed("http://www.ics.uci.edu/~lopes/");
 		// controller.addSeed("http://www.ics.uci.edu/~welling/");
 		// controller.addSeed("http://www.ics.uci.edu/");
