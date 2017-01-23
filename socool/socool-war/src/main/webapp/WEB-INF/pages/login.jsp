@@ -94,7 +94,7 @@ document.onkeydown = function(e){
 function login() {
 		if (!checkParams()) {
 			return
-		}
+		} 
 		var publicKey = RSAUtils.getKeyPair('${key.exponent}', '',
 				'${key.modulus}');
 		var params = {};
@@ -108,29 +108,61 @@ function login() {
 		});
 		$.ajax({
 			url : login_url,
+			async: true,
 			type : 'POST',
 			data : JSON.stringify(params),
 			contentType : 'application/json;charset=utf-8',
 			dataType : 'json',
+			beforeSend:function() { 
+				 $("<div class=\"modelWrap\"></div>").appendTo("body"); 
+				 $("<p class=\"loginwait\"></p").appendTo(".modelWrap");
+				 $("<img class=\"loginwaitImg\"/>").attr({src:"${pageContext.request.contextPath}/images/loginwait.gif"}).appendTo(".loginwait");
+				 $("<p class=\"modelInn\"></p>").html("正在登录，请稍候。。。").appendTo(".loginwait");
+				 $("<span id='time'></span>").css({color: "#ffac48" }).appendTo(".modelInn");
+			},
 			success : function(data) {
 				if (data.success) {
 					failCount=true;
-					setTimeout(function() {
-						location.href = return_url;
-					}, 1000);
+					loginSuccessCallback(20,return_url);
 				} else {
-						 $("#password").val('');
-						$("#code").val(''); 
-					    getPicCode();
-						errorFun(data.msg,true);
+					loginFailCallback(data.msg,2);
 				}
 			},
 			error : function(data) {
-				errorFun("系统故障!",true);
+				loginFailCallback("系统故障!");
 			}
 		});
 	}
-
+var timer = null;
+var t = 0;
+function loginSuccessCallback(num,url){
+    if(t){
+        $('#time').empty().html((num - t) + '秒');
+    }else{
+        $('#time').empty().html(num + '秒');
+    }
+    if(timer){
+        clearTimeout(timer);
+    }
+    if(t>=num){
+    	   //  location.href = url;
+    }else{
+        timer = setTimeout(function(){
+            t++;
+            loginSuccessCallback(num,url);
+        },1000)
+    }
+}
+function loginFailCallback(msg,num){
+	num=(num||3)*1000;
+    setTimeout(function(){
+			$("#password").val('');
+			$("#code").val(''); 
+		    getPicCode();
+			errorFun(msg,true);
+		    $(".modelWrap").remove();
+        },num)
+}
 function checkParams() {
 		var f1, f2, f3,f4=true;
 		var username = $("#username").val();

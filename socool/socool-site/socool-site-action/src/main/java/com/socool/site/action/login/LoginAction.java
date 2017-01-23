@@ -45,7 +45,8 @@ public class LoginAction {
 	 * @param resp
 	 */
 	@RequestMapping(value = "/code.shtml")
-	public void identifyingCode(final HttpServletRequest req, final HttpServletResponse resp) {
+	public void identifyingCode(final HttpServletRequest req,
+			final HttpServletResponse resp) {
 		try {
 			IdentifyingCodeUtil.getCode(req, resp);
 		} catch (final IOException var4) {
@@ -59,10 +60,12 @@ public class LoginAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/login.html")
-	public ModelAndView login(final HttpSession session, final HttpServletResponse response) {
+	public ModelAndView login(final HttpSession session,
+			final HttpServletResponse response) {
 		final ModelAndView model = new ModelAndView();
 		final PublicKeyPo publicKeyMap = RSAUtils.getPublicKeyMap(true);
-		final Cookie cookie = CookieUtil.createCookie(Constants.LOGIN_MAX_FAIL_KEY, Constants.LOGIN_MAX_FAIL, false);
+		final Cookie cookie = CookieUtil.createCookie(
+				Constants.LOGIN_MAX_FAIL_KEY, Constants.LOGIN_MAX_FAIL, false);
 		response.addCookie(cookie);
 		final Object code = session.getAttribute(Constants.LOGIN_CODE);
 		model.addObject("key", publicKeyMap);
@@ -95,26 +98,31 @@ public class LoginAction {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/sign.shtml", method = RequestMethod.POST)
-	public Map<String, Object> sign(@RequestBody final UserInfo userInfo, final HttpServletRequest request,
-			final HttpServletResponse response) {
+	public Map<String, Object> sign(@RequestBody final UserInfo userInfo,
+			final HttpServletRequest request, final HttpServletResponse response) {
 		final HttpSession session = request.getSession();
 		// final String sessionId = session.getId();
 		final Object code = session.getAttribute(Constants.LOGIN_CODE);
 		boolean f = false;
 		final Map<String, Object> map = new HashMap<String, Object>();
-		if (code != null && code.toString().equalsIgnoreCase(userInfo.getCode())) {
+		if (code != null
+				&& code.toString().equalsIgnoreCase(userInfo.getCode())) {
 			final String username = iUserBiz.LoginValidate(userInfo);
 			f = username != null && userInfo.getUsername().equals(username);
 			if (!f) {// cookie 设置登录错误次数限制
 				@SuppressWarnings("deprecation")
-				final String cookieKey = URLEncoder.encode(userInfo.getUsername());
-				final String failCount = CookieUtil.getCookieValue(request, cookieKey, false);
-				final Cookie ck = CookieUtil.createCookie(cookieKey, loginFailCount(failCount, true),
+				final String cookieKey = URLEncoder.encode(userInfo
+						.getUsername());
+				final String failCount = CookieUtil.getCookieValue(request,
+						cookieKey, false);
+				final Cookie ck = CookieUtil.createCookie(cookieKey,
+						loginFailCount(failCount, true),
 						Constants.LOGIN_FAIL_TIME, false);
 				response.addCookie(ck);
 				map.put(Constants.MESSAGE, "用户名或密码错误！");
 			} else {
-				CookieUtil.destroyCookie(request, response, userInfo.getUsername());
+				CookieUtil.destroyCookie(request, response,
+						userInfo.getUsername());
 				final UserInfo us = new UserInfo();
 				us.setUsername(userInfo.getUsername());
 				session.setAttribute(Constants.SESSION_USER, us);

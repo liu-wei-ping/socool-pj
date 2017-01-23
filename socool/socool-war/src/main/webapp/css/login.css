@@ -496,3 +496,21 @@ a:hover {
 	color: red;
 	font: bold 20px Helvetica, Arial, sans-serif;
 }
+
+.modelWrap{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.5);
+		display: -webkit-flex;/*设置父元素盒子的，这样内部盒子就会水平居中，上下居中。*/
+		-webkit-justify-content:center;/*设置父元素盒子的，这样内部盒子就会水平居中，上下居中。*/
+		-webkit-align-items:center;/*设置父元素盒子的，这样内部盒子就会水平居中，上下居中。*/
+	}
+	.loginwaitImg{
+	width: 100%;
+	padding: 10px 10px 0px 10px;
+}
+.modelInn{background: #d7d7d7;border-radius: 4px;color: #fff;padding: 10px;width: 100%}
+

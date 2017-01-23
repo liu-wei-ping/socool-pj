@@ -17,6 +17,10 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
+		<!--默认服务器  -->
+		<warPackageName>socool</warPackageName>
+        <tomcat.deploy.server>devServer</tomcat.deploy.server>
+        <tomcat.deploy.serverUrl>http://localhost:8080/manager/text</tomcat.deploy.serverUrl>
 	</properties>
 	<dependencies>
 		<!-- mysql驱动包 -->
@@ -216,6 +220,17 @@
         </dependency>
        <!-- 爬虫end -->
 	</dependencies>
+	
+	  <profiles>
+	  	<!-- 生产服务器 -->
+        <profile>
+            <id>prd</id>
+            <properties>
+                <tomcat.deploy.server>prdServer</tomcat.deploy.server>
+                <tomcat.deploy.serverUrl>http://192.168.200.156/manager/text</tomcat.deploy.serverUrl>
+            </properties>
+        </profile>
+      </profiles>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -224,10 +239,10 @@
 					<artifactId>tomcat7-maven-plugin</artifactId>
 					<version>2.2</version>
 					<configuration>
-						<url>http://127.0.0.0.1:8080/manager/text</url>
+						<url>${tomcat.deploy.serverUrl}</url>
 						<uriEncoding>UTF-8</uriEncoding>
-						<server>tomcat</server>
-						<path>/socool</path>
+						<server>${tomcat.deploy.server}</server>
+						<path>/${warPackageName}</path>
 						<contextReloadable>true</contextReloadable>
 					</configuration>
 				</plugin>
