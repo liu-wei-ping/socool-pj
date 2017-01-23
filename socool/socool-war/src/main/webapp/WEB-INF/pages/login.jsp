@@ -123,7 +123,7 @@ function login() {
 			success : function(data) {
 				if (data.success) {
 					failCount=true;
-					loginSuccessCallback(20,return_url);
+					loginSuccessCallback(3,return_url);
 				} else {
 					loginFailCallback(data.msg,2);
 				}
@@ -145,7 +145,7 @@ function loginSuccessCallback(num,url){
         clearTimeout(timer);
     }
     if(t>=num){
-    	   //  location.href = url;
+    	    location.href = url;
     }else{
         timer = setTimeout(function(){
             t++;
