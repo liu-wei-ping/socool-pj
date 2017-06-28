@@ -125,7 +125,7 @@ function login() {
 					failCount=true;
 					loginSuccessCallback(3,return_url);
 				} else {
-					loginFailCallback(data.msg,2);
+					loginFailCallback(data.msg,10);
 				}
 			},
 			error : function(data) {
@@ -184,6 +184,7 @@ function checkParams() {
 			 var failCount=CookieUtil.get(username); 
 			var failCountMax=CookieUtil.get("SOCOOL_LOGIN_FAIL_MAX");
 			if(failCount!=undefined && failCount!=null){
+				alert(failCount);
 				f4=errorFun("登录失败次数过多！", failCount>=failCountMax);
 			    if(!f4){
 			    	return f4;

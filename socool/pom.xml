@@ -246,7 +246,7 @@
 						<contextReloadable>true</contextReloadable>
 					</configuration>
 				</plugin>
-				<plugin>
+<!-- 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
 					<version>2.2</version>
@@ -255,7 +255,7 @@
 						<webappDirectory>${basedir}/src/main/webapp</webappDirectory>
 						<warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
 					</configuration>
-				</plugin>
+				</plugin> -->
 			</plugins>
 		</pluginManagement>
 	</build>
